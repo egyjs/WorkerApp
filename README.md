@@ -25,9 +25,11 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 - [x] **[Laravel](https://github.com/laravel/laravel)**
 - [ ] **[Passport](https://laravel.com/docs/8.x/passport)**
+- [x] **[Laravel-Migrations-Organiser](https://github.com/JayBizzle/Laravel-Migrations-Organiser)**
 - [ ] **[laravel-api-key](https://github.com/ejarnutowski/laravel-api-key)**
 - [ ] **[laravel-activitylog](https://github.com/spatie/laravel-activitylog)**
 - [ ] **[laravel-backup](https://spatie.be/docs/laravel-backup)**
+- [ ] **[laravel-translatable](https://github.com/spatie/laravel-translatable)**
 - [ ] **[laravel-translatable](https://github.com/spatie/laravel-translatable)**
 
 ## Contributing
