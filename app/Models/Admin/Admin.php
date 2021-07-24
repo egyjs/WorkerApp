@@ -9,7 +9,7 @@ use Illuminate\Notifications\Notifiable;
 class Admin extends Model
 {
     use HasFactory,Notifiable;
-    protected $guard = 'admin';
+    protected $guard = 'admins';
 
     protected $fillable = [
         'name', 'email', 'password',

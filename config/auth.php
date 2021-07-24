@@ -35,7 +35,7 @@ return [
     |
     */
 
-    'guards' => [
+    'guards' => [ // 'middleware' => 'auth:users-api'
         'admin' => [
             'driver' => 'session',
             'provider' => 'admins',
@@ -46,8 +46,20 @@ return [
         ],
 
         'api' => [
-            'driver' => 'token',
+            'driver' => 'passport',
             'provider' => 'users',
+            'hash' => false,
+        ],
+
+        'users-api' => [
+            'driver' => 'passport',
+            'provider' => 'users',
+            'hash' => false,
+        ],
+
+        'workers-api' => [
+            'driver' => 'passport',
+            'provider' => 'workers',
             'hash' => false,
         ],
     ],
