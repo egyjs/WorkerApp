@@ -3,42 +3,42 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
-use App\Models\User\User;
+use App\Http\Requests\API\User\Auth\LoginRequest;
+use App\Http\Requests\API\User\Auth\LogoutRequest;
+use App\Http\Requests\API\User\Auth\RegisterRequest;
+use App\Http\Resources\User\UserResource;
+use App\Interfaces\User\UserInterface;
 use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
-    public function register(Request $request)
+    protected $interface;
+
+    public function __construct(UserInterface $interface)
     {
-        $validatedData = $request->validate([
-            'name' => 'required|max:55',
-            'email' => 'email|required|unique:users',
-            'password' => 'required|confirmed'
-        ]);
-
-        $validatedData['password'] = bcrypt($request->password);
-
-        $user = User::create($validatedData);
-
-        $accessToken = $user->createToken('authToken')->accessToken;
-
-        return response([ 'user' => $user, 'access_token' => $accessToken]);
+        $this->interface = $interface;
     }
 
-    public function login(Request $request)
+    /**
+     * @param RegisterRequest $request
+     */
+    public function register(RegisterRequest $request)
     {
-        $loginData = $request->validate([
-            'email' => 'email|required',
-            'password' => 'required'
-        ]);
+        return $this->interface->register($request);
+    }
 
-        if (!auth()->attempt($loginData)) {
-            return response(['message' => 'Invalid Credentials']);
-        }
+    public function login(LoginRequest $request)
+    {
+        return $this->interface->login($request);
+    }
 
-        $accessToken = auth()->user()->createToken('authToken')->accessToken;
+    public function logout(LogoutRequest $request)
+    {
+        return $this->interface->logout($request);
+    }
 
-        return response(['user' => auth()->user(), 'access_token' => $accessToken]);
-
+    public function user(Request $request): UserResource
+    {
+        return new UserResource($request->user());
     }
 }

@@ -17,11 +17,11 @@ class CreateJobsTable extends Migration
             $table->id();
 
             $table->json('name'); // trans
-            $table->json('description');
+            $table->json('description'); // trans
 
 
-            $table->string('type'); // main, secondary, tertiary
-            $table->integer('parent_job');
+            $table->string('type'); // 1 main, 2 secondary, 3 tertiary
+            $table->integer('parent_job')->nullable();
 
             $table->boolean('required_cert')->default(true);
 

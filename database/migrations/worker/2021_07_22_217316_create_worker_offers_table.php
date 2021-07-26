@@ -30,6 +30,16 @@ class CreateWorkerOffersTable extends Migration
             $table->text('description')->nullable();
             $table->timestamp('user_accepted')->nullable();
 
+            $table->timestamp('start_at')->nullable();
+            $table->timestamp('end_at')->nullable();
+
+            $table->string('start_pic')->nullable();
+            $table->string('end_pic')->nullable();
+
+            $table->enum('status', \App\Constants\DB::workerOfferStatus)->default('OFFERED'); // OFFERED -> ACCEPTED -> [WAITING_WORKER]
+            $table->enum('payment_status',\App\Constants\DB::workerOfferPaymentStatus)->default('UNPAID');
+            $table->string('payment_type');
+
             $table->timestamps();
         });
     }

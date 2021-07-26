@@ -28,9 +28,12 @@ class AuthServiceProvider extends ServiceProvider
 
         Passport::routes();
         Passport::tokensCan([
-            'user' => 'User Type',
-            'worker' => 'Worker Type',
+            'users' => 'User Type',
+            'workers' => 'Worker Type',
         ]);
 
+        Passport::setDefaultScope([
+            'users',
+        ]);
     }
 }

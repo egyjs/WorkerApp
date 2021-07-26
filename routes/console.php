@@ -1,5 +1,6 @@
 <?php
 
+use App\Helpers\StorageHelper;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
@@ -20,8 +21,17 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('test', function () {
+
+    // test3
+    $subject = 'idPhoto';
+    $filename = '/test.png';
+    dd(StorageHelper::buildPath(\App\Models\User\User::class,$subject,$filename));
+
+
+    // test2
+    dd(StorageHelper::foldersName(\App\Models\User\User::class,'/hi/lol.php'));
+
     // test1
     dd(Carbon::getDays(),Carbon::create('2021/07/23')->format('l'));
-
 
 })->purpose('Display an test');

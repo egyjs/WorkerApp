@@ -14,6 +14,21 @@ class DB
         'BANNED'
     ];
 
+    public const workerOfferStatus = [
+        'OFFERED',
+        'ACCEPTED',
+        'WAITING_WORKER',
+        'STARTED',
+        'FINISHED',
+        'CANCELLED',
+    ];
+
+    public const workerOfferPaymentStatus = [
+        'UNPAID',
+        'PAID',
+        'PARTIALLY_PAID',
+        'REFUNDED',
+    ];
 
     public const userStatus = [
         'ACTIVE',
@@ -37,7 +52,7 @@ class DB
     public const issueFilesTypes = [
         'IMAGE',
         'VIDEO',
-//        'DOC',// cant add doc
+
     ];
 
 

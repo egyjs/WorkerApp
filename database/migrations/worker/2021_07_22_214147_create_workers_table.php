@@ -28,7 +28,18 @@ class CreateWorkersTable extends Migration
             $table->string('password');
 
             $table->string('balance')->default(0);
-            $table->string('rate')->default(null); // null mean there is no any rates yet
+            $table->string('rate')->nullable()->default(null); // null mean there is no any rates yet
+
+            //id
+            $table->string('photo');
+
+            $table->string('driver_license')->nullable(); // State-issued driver's license/ID card
+            $table->string('driver_license_photo')->nullable();
+
+            $table->string('ssn')->unique()->nullable(); // Social Security card
+            $table->string('ssn_photo')->nullable();
+
+
 
             // location relation
             $table->bigInteger('country_id');

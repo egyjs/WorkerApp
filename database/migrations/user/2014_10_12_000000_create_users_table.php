@@ -19,7 +19,7 @@ class CreateUsersTable extends Migration
             $table->string('lastname');
 
             $table->string('phone')->unique();
-            $table->string('email')->unique();
+            $table->string('email')->unique()->nullable();
 
             $table->timestamp('phone_verified_at')->nullable();
             $table->timestamp('email_verified_at')->nullable();
@@ -27,7 +27,7 @@ class CreateUsersTable extends Migration
             $table->string('password');
 
             $table->string('balance')->default(0);
-            $table->string('rate')->default(null); // null mean there is no any rates yet
+            $table->string('rate')->nullable()->default(null); // null mean there is no any rates yet
 
             // location relation
             $table->bigInteger('country_id');

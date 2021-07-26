@@ -25,17 +25,16 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 - [x] **[Laravel](https://github.com/laravel/laravel)**
 - [ ] **[Passport](https://laravel.com/docs/8.x/passport)**
-- [x] **[Laravel-Migrations-Organiser](https://github.com/JayBizzle/Laravel-Migrations-Organiser)**
 - [ ] **[laravel-api-key](https://github.com/ejarnutowski/laravel-api-key)**
 - [ ] **[laravel-activitylog](https://github.com/spatie/laravel-activitylog)**
 - [ ] **[laravel-backup](https://spatie.be/docs/laravel-backup)**
-- [ ] **[laravel-translatable](https://github.com/spatie/laravel-translatable)**
-- [ ] **[laravel-translatable](https://github.com/spatie/laravel-translatable)**
+- [x] **[laravel-translatable](https://github.com/spatie/laravel-translatable)**
 
-## Contributing
+## install
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
 
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+```shell
+cmopser update
+php artisan migrate && php artisan migrate --path=database/migrations/* 
+php artisan passport:install
+```

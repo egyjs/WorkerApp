@@ -1,8 +1,8 @@
 <?php
 
-namespace Database\Factories;
+namespace Database\Factories\Common;
 
-use App\Models\Model;
+use App\Models\Common\Job;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class JobFactory extends Factory
@@ -12,17 +12,20 @@ class JobFactory extends Factory
      *
      * @var string
      */
-    protected $model = Model::class;
+    protected $model = Job::class;
 
     /**
      * Define the model's default state.
      *
      * @return array
      */
-    public function definition()
+    public function definition(): array
     {
         return [
-            //
+            'name'=>$this->faker->jobTitle,
+            'description'=>$this->faker->emoji,
+            'type'=>1,
+            'required_cert'=>false,
         ];
     }
 }
