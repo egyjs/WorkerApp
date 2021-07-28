@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateUserWalletsTable extends Migration
+class CreateCanceledOffersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,15 @@ class CreateUserWalletsTable extends Migration
      */
     public function up()
     {
-        Schema::create('user_wallets', function (Blueprint $table) {
+        Schema::create('canceled_offers', function (Blueprint $table) {
             $table->id();
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->string('transaction_desc')->nullable();
-            $table->enum('type', ['OUT', 'IN',])->default('OUT');
-            $table->string('amount')->default(0);
-            $table->string('open_balance')->default(0);
-            $table->string('close_balance')->default(0);
+            $table->foreignId('worker_id')->constrained('workers')->onDelete('cascade');
+            $table->foreignId('worker_offer_id')->constrained('worker_offers')->onDelete('cascade');
+
+            $table->enum('canceled_by',\App\Constants\DB::canceledOffersBy);
+            $table->text('reason');
 
             $table->timestamps();
         });
@@ -34,6 +34,6 @@ class CreateUserWalletsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('user_wallets');
+        Schema::dropIfExists('canceled_offers');
     }
 }

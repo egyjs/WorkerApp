@@ -27,4 +27,8 @@ Route::group(['middleware' => ['auth:workers','scopes:workers'] ],function(){
         Route::get('worker',[AuthController::class, 'worker']);
     });
 
+    // assign_jobs
+    Route::post('assign_jobs',[AuthController::class, 'assignJobs']);
+
+
 });

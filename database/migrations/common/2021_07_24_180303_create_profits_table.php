@@ -27,8 +27,8 @@ class CreateProfitsTable extends Migration
             $table->string('garry_profit_percent'); // 10%
             $table->string('garry_profit_amount'); // 10% of  300 = 30
 
-            $table->string('garry_tax_amount'); // 15% of 30 = 4.5
-            $table->string('garry_profit_amount_after_tax'); // 30 - 4.5 = 25.5
+            $table->string('garry_tax_amount')->nullable(); // 15% of 30 = 4.5
+            $table->string('garry_profit_amount_after_tax')->nullable(); // 30 - 4.5 = 25.5
 
             $table->timestamps();
         });

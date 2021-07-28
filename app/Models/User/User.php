@@ -21,6 +21,7 @@ class User extends Authenticatable
 {
     use HasFactory, Notifiable,HasApiTokens;
 
+//    protected $appends = ['ae'];
     protected $with = [
 //        'country',
 //        'state',

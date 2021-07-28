@@ -40,6 +40,7 @@ class DB
         'ACCEPT',
 //        'reject', // reject table will just be `PENDING` but we wont bring this issue to the same worker for one day
         'INFONEED',
+        'CANCELLED'
     ];
 
     public const building_types = [
@@ -52,7 +53,12 @@ class DB
     public const issueFilesTypes = [
         'IMAGE',
         'VIDEO',
+    ];
 
+    public const canceledOffersBy = [
+        'USER',
+        'WORKER',
+//        'customers_service'
     ];
 
 

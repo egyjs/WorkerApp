@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Worker;
 
+use App\Http\Resources\Common\WorkerJobResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Str;
@@ -34,15 +35,15 @@ class WorkerResource extends JsonResource
             'driver_license'=>$this->driver_license,
             'driver_license_photo'=>asset('storage/'.$this->driver_license_photo),
 
-            'balance'=> $this->balance,
+            'balance'=> $this->balance ?? 0,
             'rate'=> $this->rate,
             'status'=> $this->status,
 
-            'country' =>$this->country,
-            'state'   =>$this->state,
-            'city'    =>$this->city,
+            'country' => $this->country,
+            'state'   => $this->state,
+            'city'    => $this->city,
 
-            'jobs'=>$this->worker_jobs,
+            'jobs'=> new WorkerJobResource($this->jobs),
 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -33,6 +33,11 @@ return [
 
     'stores' => [
 
+        'cache-builder' => [
+            'driver' => 'file',
+            'path'   => storage_path('framework/cache/CacheQueryBuilder')
+        ],
+
         'apc' => [
             'driver' => 'apc',
         ],

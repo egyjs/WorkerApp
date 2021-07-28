@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\User\Auth\AssignAddressRequest;
 use App\Http\Requests\API\User\Auth\LoginRequest;
 use App\Http\Requests\API\User\Auth\LogoutRequest;
 use App\Http\Requests\API\User\Auth\RegisterRequest;
@@ -19,9 +20,6 @@ class AuthController extends Controller
         $this->interface = $interface;
     }
 
-    /**
-     * @param RegisterRequest $request
-     */
     public function register(RegisterRequest $request)
     {
         return $this->interface->register($request);
@@ -40,5 +38,10 @@ class AuthController extends Controller
     public function user(Request $request): UserResource
     {
         return new UserResource($request->user());
+    }
+
+    public function assignAddress(AssignAddressRequest $request)
+    {
+        return  $this->interface->assignAddress($request);
     }
 }

@@ -1,13 +1,11 @@
 <?php
 
-namespace App\Models\User;
+namespace App\Models\Common;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class UserAddress extends Model
+class CanceledOffer extends Model
 {
     use HasFactory;
-
-    protected $guarded = [];
 }

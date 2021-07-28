@@ -22,11 +22,11 @@ class CreateUserIssuesTable extends Migration
             $table->string('name');
             $table->text('description');
 
-            $table->enum('status', App\Constants\DB::userIssuesStatus);
+            $table->timestamp('time');
+            $table->enum('status', App\Constants\DB::userIssuesStatus)->default('PENDING');
             /**
              * @column more_info
              * will be an object hav the Q and the A
-             *
              */
             $table->json('more_info');
 

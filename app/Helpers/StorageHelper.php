@@ -6,6 +6,7 @@ namespace App\Helpers;
 
 use App\Models\Worker\Worker;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use phpDocumentor\Reflection\DocBlock\Tags\Throws;
@@ -23,17 +24,25 @@ class StorageHelper
         return ''.((new $model)->getTable()).'/'.$path;
     }
 
-    public static function filePath($model,$request,$inputName,$prefix = ''):string
+    public static function filePath($model,UploadedFile $uploadedFile,$inputName,$prefix = ''):string
     {
-        return StorageHelper::foldersName($model,"$inputName/".($prefix != ''?$prefix.'-':uniqid()).time().'-'.$request->file($inputName)->getClientOriginalName());
+        $inputName = Str::pluralStudly($inputName);
+        return StorageHelper::foldersName($model,"$inputName/".($prefix != ''?$prefix.'-':uniqid()).time().'-'.$uploadedFile->getClientOriginalName());
     }
 
 
-    public static function saveAs($model,$request,$inputName,$prefix = ''):string
+    /**
+     * @param $model
+     * @param UploadedFile $uploadedFile
+     * @param string $inputName
+     * @param string $prefix
+     * @return string|\Exception
+     */
+    public static function saveAs($model, UploadedFile $uploadedFile, string $inputName, string $prefix = ''):string
     {
         try {
-            $photoPath =  StorageHelper::filePath($model,$request,$inputName,$prefix);
-            Storage::disk('public')->put($photoPath, $request->file($inputName)->getContent());
+            $photoPath =  StorageHelper::filePath($model,$uploadedFile,$inputName,$prefix);
+            Storage::disk('public')->put($photoPath, $uploadedFile->getContent());
             return $photoPath;
         }catch (\Exception $exception){
             dd($exception->getMessage());

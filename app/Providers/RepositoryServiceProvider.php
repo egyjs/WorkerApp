@@ -20,6 +20,12 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\User\UserRepository'
         );
 
+        // user issues
+        $this->app->bind(
+            'App\Interfaces\User\IssueInterface',
+            'App\Repositories\User\IssueRepository'
+        );
+
         // worker
         $this->app->bind(
             'App\Interfaces\Worker\WorkerInterface',

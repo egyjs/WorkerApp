@@ -6,6 +6,7 @@ namespace App\Interfaces\Worker;
 
 
 
+use App\Http\Requests\API\Worker\Auth\AssignJobsRequest;
 use App\Http\Requests\API\Worker\Auth\LoginRequest;
 use App\Http\Requests\API\Worker\Auth\LogoutRequest;
 use App\Http\Requests\API\Worker\Auth\RegisterRequest;
@@ -21,14 +22,14 @@ interface WorkerInterface
     public function getAll();
 
     /**
-     * Get User By ID
+     * Get User By
      *
-     * @param integer $id
+     * @param  $id
      *
      * @method  /GET api/users/{id}
      * @access  public
      */
-    public function getById(int $id);
+    public function find($id);
 
 
     /**
@@ -61,4 +62,10 @@ interface WorkerInterface
      * @return mixed
      */
     public function logout(LogoutRequest $request);
+
+    /**
+     * @param AssignJobsRequest $request
+     * @return mixed
+     */
+    public function assignJobs(AssignJobsRequest $request);
 }

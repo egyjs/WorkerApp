@@ -38,7 +38,7 @@ class CreateWorkerOffersTable extends Migration
 
             $table->enum('status', \App\Constants\DB::workerOfferStatus)->default('OFFERED'); // OFFERED -> ACCEPTED -> [WAITING_WORKER]
             $table->enum('payment_status',\App\Constants\DB::workerOfferPaymentStatus)->default('UNPAID');
-            $table->string('payment_type');
+            $table->string('payment_type'); // todo:enum
 
             $table->timestamps();
         });

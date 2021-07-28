@@ -48,7 +48,7 @@ class CreateWorkersTable extends Migration
 
             $table->ipAddress('last_ip');
 
-            $table->enum('status', App\Constants\DB::workerStatus);
+            $table->enum('status', App\Constants\DB::workerStatus)->default('REVIEW');
 
             $table->timestamps();
         });

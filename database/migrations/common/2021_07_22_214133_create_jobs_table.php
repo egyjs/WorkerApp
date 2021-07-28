@@ -20,7 +20,7 @@ class CreateJobsTable extends Migration
             $table->json('description'); // trans
 
 
-            $table->string('type'); // 1 main, 2 secondary, 3 tertiary
+            $table->string('type'); // 1 main, 2 secondary, 3
             $table->integer('parent_job')->nullable();
 
             $table->boolean('required_cert')->default(true);

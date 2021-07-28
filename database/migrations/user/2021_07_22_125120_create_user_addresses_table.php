@@ -33,14 +33,14 @@ class CreateUserAddressesTable extends Migration
 
             $table->string('postal_code');
 
-            $table->integer('phone_code'); //  966
+            $table->integer('phone_code'); //  20
             $table->integer('phone'); // 123456789
 
             $table->boolean('primary')->default(0);
 
 
 
-            // location relation // auto based on  geolocation
+            // location relation // auto based on geolocation
             $table->bigInteger('country_id'); // auto
             $table->bigInteger('state_id')->nullable(); // auto
             $table->bigInteger('city_id'); // auto

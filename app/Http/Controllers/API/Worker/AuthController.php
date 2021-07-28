@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API\Worker;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\API\Worker\Auth\AssignJobsRequest;
 use App\Http\Requests\API\Worker\Auth\LoginRequest;
 use App\Http\Requests\API\Worker\Auth\LogoutRequest;
 use App\Http\Requests\API\Worker\Auth\RegisterRequest;
@@ -41,5 +42,10 @@ class AuthController extends Controller
     public function worker(Request $request): WorkerResource
     {
         return new WorkerResource($request->user());
+    }
+
+    public function assignJobs(AssignJobsRequest $request)
+    {
+        return $this->interface->assignJobs($request);
     }
 }

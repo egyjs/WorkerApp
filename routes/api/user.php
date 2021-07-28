@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\User\AuthController;
+use App\Http\Controllers\API\User\IssueController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -28,4 +29,6 @@ Route::group(['middleware' => ['auth:users','scopes:users'] ],function(){
         Route::get('user',[AuthController::class, 'user']);
     });
 
+    Route::post('assign_address', [AuthController::class, 'assignAddress']);
+    Route::resource('issues', IssueController::class);
 });

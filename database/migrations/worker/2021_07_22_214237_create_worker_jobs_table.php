@@ -21,7 +21,7 @@ class CreateWorkerJobsTable extends Migration
 
             $table->string('certificate')->nullable(); // if `job_id` need certificate here it will be
 
-            $table->boolean('active')->default(false); // `false` until admin review
+            $table->boolean('active')->default(false); // todo: `false` until admin review
             $table->timestamps();
         });
     }

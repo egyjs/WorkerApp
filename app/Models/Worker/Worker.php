@@ -6,9 +6,12 @@ use App\Models\Common\City;
 use App\Models\Common\Country;
 use App\Models\Common\Job;
 use App\Models\Common\State;
+use Geeky\Database\CacheQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -16,10 +19,12 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @method static find(int $id)
  * @method static create(array $validatedData)
- * @method static where(string $string, $email)
+ * @method static where(string|array $string, $email = '')
  */
 class Worker extends Authenticatable
 {
+    use HasFactory, Notifiable,HasApiTokens,CacheQueryBuilder;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -41,8 +46,6 @@ class Worker extends Authenticatable
         'ssn',
         'ssn_photo'
     ];
-
-    use HasFactory, Notifiable,HasApiTokens;
 
     /**
      * The attributes that should be hidden for arrays.
@@ -80,9 +83,18 @@ class Worker extends Authenticatable
     {
         return $this->belongsTo(City::class);
     }
-//    public function jobs()
-//    {
-//        return $this->hasMany(Worker::class);
-//    }
+
+    public function jobs(): BelongsToMany
+    {
+        //return $this->belongsToMany(RelatedModel, pivot_table_name, foreign_key_of_current_model_in_pivot_table, foreign_key_of_other_model_in_pivot_table);
+        return $this->belongsToMany(
+            Job::class,
+            'worker_jobs',
+            'worker_id',
+            'job_id')
+            ->withPivot(['certificate','active']);
+//            ->wherePivot('active','=',1)
+
+    }
 
 }
