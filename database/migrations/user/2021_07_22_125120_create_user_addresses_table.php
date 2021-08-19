@@ -27,7 +27,7 @@ class CreateUserAddressesTable extends Migration
             $table->text('building_name'); //
             $table->string('floor_no')->nullable(); // no need in VILLA;
             $table->string('building_no')->nullable(); // no need in VILLA;
-            $table->string('office_name')->nullable();// only need id type = OFFICE;
+//            $table->string('office_name')->nullable();// only need id type = OFFICE;
 
             $table->text('details')->nullable();// ex. Special Marks
 

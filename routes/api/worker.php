@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Worker\AuthController;
+use App\Http\Controllers\API\Worker\WorkerController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -24,11 +25,12 @@ Route::group(['middleware' => ['auth:workers','scopes:workers'] ],function(){
     // auth
     Route::group(['prefix'=>'auth'],function (){
         Route::post('logout', [AuthController::class, 'logout']);
-        Route::get('worker',[AuthController::class, 'worker']);
+        Route::get('worker',[WorkerController::class, 'worker']);
     });
 
     // assign_jobs
-    Route::post('assign_jobs',[AuthController::class, 'assignJobs']);
+    Route::post('assign_jobs',[WorkerController::class, 'assignJobs']);
+    Route::post('assign_schedule',[WorkerController::class, 'assignSchedule']);
 
 
 });

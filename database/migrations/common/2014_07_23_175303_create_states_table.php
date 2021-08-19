@@ -22,6 +22,11 @@ class CreateStatesTable extends Migration
 
             $table->bigInteger('country_id');
 
+            // geolocation
+            $table->string('lat');
+            $table->string('lng');
+
+
             $table->boolean('active')->default(true);
 
             $table->timestamps();

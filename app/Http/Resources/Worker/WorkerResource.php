@@ -19,21 +19,22 @@ class WorkerResource extends JsonResource
     public function toArray($request): array
     {
         $email = Str::contains($this->email,'@garry.com')?null:$this->email;
-        $rate  = isNull($this->rate)? 4.5: $this->rate; // not using
         return [
             'id' => $this->id,
 
             'name' => $this->firstname.' '.$this->lastname,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
+
             'phone'=>$this->phone,
             'phone_verified_at'=>$this->phone_verified_at,
+
             'email' => $email,
             'email_verified_at'=>$this->email_verified_at,
-            'photo'=>asset('storage/'.$this->photo),
+            'photo'=>storageAsset($this->photo),
 
             'driver_license'=>$this->driver_license,
-            'driver_license_photo'=>asset('storage/'.$this->driver_license_photo),
+            'driver_license_photo'=>storageAsset($this->driver_license_photo),
 
             'balance'=> $this->balance ?? 0,
             'rate'=> $this->rate,
@@ -44,6 +45,7 @@ class WorkerResource extends JsonResource
             'city'    => $this->city,
 
             'jobs'=> new WorkerJobResource($this->jobs),
+            'schedules'=> $this->schedules,
 
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,

@@ -4,6 +4,7 @@ use App\Helpers\StorageHelper;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,18 +21,28 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
+Artisan::command('worker:factory', function () {
+    $w = \App\Models\Worker\Worker::factory()->count(500)->create();
+    dd($w);
+});
+
+
 Artisan::command('test', function () {
 
+    $w = \App\Models\Common\City::factory()->count(40)->create();
+    dd($w);
+
+
     // test3
-    $subject = 'idPhoto';
-    $filename = '/test.png';
-    dd(StorageHelper::buildPath(\App\Models\User\User::class,$subject,$filename));
+//    $subject = 'idPhoto';
+//    $filename = '/test.png';
+//    dd(StorageHelper::buildPath(\App\Models\User\User::class,$subject,$filename));
 
 
     // test2
-    dd(StorageHelper::foldersName(\App\Models\User\User::class,'/hi/lol.php'));
+    dd(StorageHelper::foldersName(\App\Models\User\User::class, '/hi/lol.php'));
 
     // test1
-    dd(Carbon::getDays(),Carbon::create('2021/07/23')->format('l'));
+    dd(Carbon::getDays(), Carbon::create('2021/07/23')->format('l'));
 
 })->purpose('Display an test');

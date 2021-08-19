@@ -25,6 +25,11 @@ class CreateCountriesTable extends Migration
             $table->string("flag")->nullable();
             $table->string("tax_percentage")->default(0);
 
+            // geolocation
+            $table->string('lat');
+            $table->string('lng');
+
+
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

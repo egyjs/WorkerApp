@@ -2,6 +2,7 @@
 
 namespace App\Models\Worker;
 
+use App\Traits\ModelRelations\Worker\HasWorker;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,6 +15,8 @@ use Illuminate\Database\Eloquent\Model;
 class WorkerDevice extends Model
 {
     use HasFactory;
+    use HasWorker;
+
 
     protected $fillable = [
         'unique_id',

@@ -2,6 +2,7 @@
 
 namespace App\Models\User;
 
+use App\Traits\ModelRelations\User\HasUser;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -14,7 +15,7 @@ use Illuminate\Database\Eloquent\Model;
 class UserDevice extends Model
 {
     use HasFactory;
-
+    use HasUser;
     protected $fillable = [
         'unique_id',
         'user_id',

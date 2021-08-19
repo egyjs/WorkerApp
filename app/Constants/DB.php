@@ -38,7 +38,7 @@ class DB
     public const userIssuesStatus = [
         'PENDING',
         'ACCEPT',
-//        'reject', // reject table will just be `PENDING` but we wont bring this issue to the same worker for one day
+//      'reject', // reject table will just be `PENDING` but we won't bring this issue to the same worker for one day // if reject get auto worker
         'INFONEED',
         'CANCELLED'
     ];

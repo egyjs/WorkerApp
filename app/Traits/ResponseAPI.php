@@ -3,9 +3,23 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Str;
 
 trait ResponseAPI
 {
+    /**
+     * Send any success response
+     *
+     * @param mixed $message
+     * @param array|object $data
+     * @param integer $statusCode
+     * @return JsonResponse
+     */
+    public function success($message, $data, int $statusCode = 200): JsonResponse
+    {
+        return $this->coreResponse($message, $data, $statusCode);
+    }
+
     /**
      * Core of response
      *
@@ -18,36 +32,18 @@ trait ResponseAPI
     public function coreResponse($message, $data = null, int $statusCode, bool $isSuccess = true): JsonResponse
     {
         // Check the params
-        if(!$message) return response()->json(['message' => 'Message is required'], 500);
+        if (!$message) return response()->json(['message' => 'Message is required'], 500);
+
+        $message = Str::title($message);
 
         // Send the response
-        if($isSuccess) {
-            return response()->json([
-                'message' => $message,
-                'error' => false,
-                'code' => $statusCode,
-                'results' => $data
-            ], $statusCode);
-        } else {
-            return response()->json([
-                'message' => $message,
-                'error' => true,
-                'code' => $statusCode,
-            ], $statusCode);
-        }
-    }
 
-    /**
-     * Send any success response
-     *
-     * @param mixed $message
-     * @param array|object $data
-     * @param integer $statusCode
-     * @return JsonResponse
-     */
-    public function success($message, $data, int $statusCode = 200): JsonResponse
-    {
-        return $this->coreResponse($message, $data, $statusCode);
+        return response()->json([
+            'message' => $message,
+            'code' => $statusCode,
+            'error' => !$isSuccess,
+            'results' => $data,
+        ], $statusCode);
     }
 
     /**

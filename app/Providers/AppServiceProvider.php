@@ -2,6 +2,10 @@
 
 namespace App\Providers;
 
+use App\Bindings\CacheRepository;
+use Illuminate\Cache\Repository;
+use Illuminate\Cache;
+use Illuminate\Contracts\Cache\Store;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -13,7 +17,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        if ($this->app->environment('local')) {
+            $this->app->register(\Laravel\Telescope\TelescopeServiceProvider::class);
+            $this->app->register(TelescopeServiceProvider::class);
+        }
     }
 
     /**

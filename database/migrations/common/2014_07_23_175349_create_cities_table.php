@@ -22,6 +22,13 @@ class CreateCitiesTable extends Migration
 
             $table->bigInteger('state_id');
 
+
+            // geolocation
+            $table->string('lat');
+            $table->string('lng');
+
+
+
             $table->boolean('active')->default(true);
 
 

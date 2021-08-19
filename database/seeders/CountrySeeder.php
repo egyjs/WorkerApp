@@ -22,7 +22,9 @@ class CountrySeeder extends Seeder
             'iso'=>'US',
             'un_code'=>'1',
             'flag'=>'',
-            'tax_percentage'=>0
+            'tax_percentage'=>0,
+            'lat' => '37.09024',
+            'lng'=>'-95.712891'
         ]);
     }
 }

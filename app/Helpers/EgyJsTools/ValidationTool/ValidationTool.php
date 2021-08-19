@@ -12,66 +12,97 @@ class ValidationTool
 {
     public $rules = [];
 
-
-    protected const regex_patterns = [
-        'password.'
-    ];
+    protected $lastKey = '';
 
 
-    public function regex($regex,$key): ValidationTool
+
+    public function setKey($key): ValidationTool
     {
-        $this->rules[$key][] = "regex:$regex";
+        $this->lastKey = $key;
+        return $this;
+    }
+
+    public function regex($regex,$key = null): ValidationTool
+    {
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = "regex:$regex";
         return $this;
     }
 
 
-    public function required($key): ValidationTool
+    public function required($key =null): ValidationTool
     {
-        $this->rules[$key][] = "required";
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = "required";
         return $this;
     }
 
 
 
-    public function requiredIf($condition,$key): ValidationTool
+    public function requiredIf($condition,$key=null): ValidationTool
     {
-        $this->rules[$key][] = new RequiredIf($condition);
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = new RequiredIf($condition);
         return $this;
     }
 
-    public function equalTo($key,$value): ValidationTool
+    public function equalTo($value,$key=null): ValidationTool
     {
-        $this->rules[$key][] = new In($value);
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = new In($value);
         return $this;
     }
 
-    public function NotEqualTo($key,$value): ValidationTool
+    public function NotEqualTo($value,$key=null): ValidationTool
     {
-        $this->rules[$key][] = new NotIn($value);
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = new NotIn($value);
         return $this;
     }
 
-    public function exists($key,$table,$column = null): ValidationTool
+    public function exists($table,$column = null,$key =null): ValidationTool
     {
-        $this->rules[$key][] = "exists:$table".($column != null?",$column":'');
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = "exists:$table".($column != null?",$column":'');
         return $this;
     }
 
 
-    public function asEmail($key): ValidationTool
+    public function asEmail($key =null): ValidationTool
     {
-        $this->rules[$key][] = "email";
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = "email";
         return $this;
     }
 
-    public function asDate($key ='date'): ValidationTool
+    public function asDate($key = null): ValidationTool
     {
-        $this->rules[$key][] = "date";
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = "date";
         return $this;
     }
     public function asImage($key): ValidationTool
     {
-        $this->rules[$key][] = "image";
+        $this->lastKey = $key != null
+            ?$key
+            :$this->lastKey;
+        $this->rules[$this->lastKey][] = "image";
         return $this;
     }
 

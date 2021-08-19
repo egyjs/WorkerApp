@@ -2,13 +2,14 @@
 
 namespace App\Models\User;
 
-use App\Models\Common\City;
-use App\Models\Common\Country;
-use App\Models\Common\State;
+
+use App\Traits\ModelRelations\Common\HasCanceledOffer;
+use App\Traits\ModelRelations\Common\HasPlace;
+use App\Traits\ModelRelations\Common\HasRejectedIssue;
+use App\Traits\ModelRelations\User\UserRelations;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
+
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -16,17 +17,14 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @method static create(array $validatedData)
  * @method static find(int $id)
+ * @method where(string $string, string $username)
  */
 class User extends Authenticatable
 {
     use HasFactory, Notifiable,HasApiTokens;
+    // relations traits
+    use HasPlace,HasRejectedIssue,HasCanceledOffer,UserRelations;
 
-//    protected $appends = ['ae'];
-    protected $with = [
-//        'country',
-//        'state',
-//        'city'
-    ];
     /**
      * The attributes that are mass assignable.
      *
@@ -64,25 +62,19 @@ class User extends Authenticatable
         'phone_verified_at' => 'datetime',
     ];
 
-    public function country(): BelongsTo
+    /**
+     * Find the user instance for the given username.
+     *
+     * @param string $username
+     * @return $this
+     */
+    public function findForPassport(string $username): User
     {
-        return $this->belongsTo(Country::class);
+        return $this->where('phone', $username)->first();
     }
 
-    public function state(): BelongsTo
-    {
-        return $this->belongsTo(State::class);
-    }
 
-    public function city(): BelongsTo
-    {
-        return $this->belongsTo(City::class);
-    }
 
-    public function addresses(): HasMany
-    {
-        return $this->hasMany(UserAddress::class);
-    }
 
 
 }

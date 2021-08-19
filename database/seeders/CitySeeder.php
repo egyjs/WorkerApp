@@ -19,7 +19,9 @@ class CitySeeder extends Seeder
         City::create([
             'name'=>'Albany',
             'description'=>'Albany is New York capital',
-            'state_id'=>State::first()->id
+            'state_id'=>State::first()->id,
+            'lat'=>'42.6525793',
+            'lng'=>'-73.7562317',
         ]);
     }
 }

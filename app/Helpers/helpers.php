@@ -1,5 +1,11 @@
 <?php
 
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Database\Query\Expression;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+
 if ( ! function_exists( 'get_currency_countries' ) ) {
     /**
      * get_currency_countries.
@@ -169,4 +175,120 @@ if ( ! function_exists( 'get_currency_countries' ) ) {
             'ZWD' => ['ZW'],
         ];
     }
+}
+
+
+if (! function_exists('storageAsset')) {
+    /**
+     * Generate an asset path for the application.
+     *
+     * @param  string  $path
+     * @param  bool|null  $secure
+     * @return string
+     */
+    function storageAsset($path, $secure = null): string
+    {
+        return app('url')->asset('storage/'.$path, $secure);
+    }
+}
+
+function client_distance_raw($client, $basedOn = 'city', $latColumnName = 'lat', $lngColumnName = 'lng', $AS='city_distance'): Expression
+{
+
+    $tableBased = Str::pluralStudly($basedOn);
+    $modelBased = $client->{Str::singular($basedOn)};
+//    dd($modelBased);
+    $lat = $modelBased->$latColumnName;
+    $lng = $modelBased->$lngColumnName;
+
+    return DB::raw(' ( 6371 * acos( cos( radians(' . $lat . ') ) *
+        cos( radians( '.$tableBased.'.lat  ) ) * cos( radians(  '.$tableBased.'.lng ) - radians(' . $lng . ') ) +
+        sin( radians(' . $lat . ') ) *
+        sin( radians(  '.$tableBased.'.lat ) ) ) )  AS '. $AS);
+}
+
+function average_worker_price_raw($AS = 'average_worker_price'): Expression
+{
+    return DB::raw("((worker_jobs.price_range_from + worker_jobs.price_range_to) / 2)  as $AS");
+}
+
+/**
+ * Identify all relationships for a given model
+ *
+ * @param null $model Model
+ * @return  array
+ * @throws ReflectionException
+ */
+function getAllRelations($model): array
+{
+    $instance = new $model;
+
+    // Get public methods declared without parameters and non inherited
+    $class = get_class($instance);
+    $allMethods = (new \ReflectionClass($class))->getMethods(\ReflectionMethod::IS_PUBLIC);
+    $methods = array_filter(
+        $allMethods,
+        function ($method) use ($class) {
+            return $method->class === $class
+                && !$method->getParameters()                  // relationships have no parameters
+                && $method->getName() !== 'getRelationships'; // prevent infinite recursion
+        }
+    );
+
+    DB::beginTransaction();
+
+    $relations = [];
+    foreach ($methods as $method) {
+        try {
+            $methodName = $method->getName();
+            $methodReturn = $instance->$methodName();
+            if (!$methodReturn instanceof Relation) {
+                continue;
+            }
+        } catch (\Throwable $th) {
+            continue;
+        }
+
+        $type = (new \ReflectionClass($methodReturn))->getShortName();
+        $model = get_class($methodReturn->getRelated());
+        $relations[$methodName] = [$type, $model];
+    }
+
+    DB::rollBack();
+
+    return $relations;
+}
+
+function getModels($modelNamespace = 'Models'){
+    $appNamespace = Illuminate\Container\Container::getInstance()->getNamespace();
+
+
+    $models = collect(File::allFiles(app_path($modelNamespace)))->map(function ($item) use ($appNamespace, $modelNamespace) {
+        $rel   = $item->getRelativePathName();
+        $class = sprintf('\%s%s%s', $appNamespace, $modelNamespace ? $modelNamespace . '\\' : '',
+            implode('\\', explode('/', substr($rel, 0, strrpos($rel, '.')))));
+        return class_exists($class) ? $class : null;
+    })->filter();
+    return $models;
+}
+
+
+function SQLTypeToGraphQL($type, $column){
+    if (Str::contains($type,['varchar','enum','text']) ){
+        return 'String!';
+    }elseif (Str::contains($type,['timestamp','datetime'])){
+        return 'DateTime!';
+    }elseif (Str::contains($type,['date'])){
+        return 'Date!';
+    }elseif (Str::contains($type,['time'])){
+        return 'Time!';
+    }elseif (Str::contains($type,['bigint(20)',' unsigned'])){
+        return 'ID!';
+    }elseif (Str::contains($type,['tinyint(1)'])){
+        return 'Boolean!';
+    }elseif (Str::contains($type,['int(11)'])){
+        return 'Int!';
+    }
+
+    dd($type,$column,'SQLTypeToGraphQL');
 }

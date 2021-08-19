@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class GarryWallet extends Model
 {
     use HasFactory;
+
 }

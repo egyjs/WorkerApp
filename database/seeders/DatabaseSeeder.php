@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (empty(DB::table('countries')->count())) {
+        if (empty(DB::table('countries')->count()) && empty(DB::table('states')->count())) {
             $this->call([
                 CountrySeeder::class,
                 StateSeeder::class,

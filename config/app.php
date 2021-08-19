@@ -149,6 +149,9 @@ return [
 
     'providers' => [
 
+        App\Providers\CacheServiceProvider::class,
+
+
         /*
          * Laravel Framework Service Providers...
          */
@@ -182,12 +185,16 @@ return [
         /*
          * Application Service Providers...
          */
+
         App\Providers\AppServiceProvider::class,
         App\Providers\AuthServiceProvider::class,
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
+//        App\Providers\TelescopeServiceProvider::class,
         App\Providers\RepositoryServiceProvider::class,
+        \Nuwave\Lighthouse\Tracing\TracingServiceProvider::class,
+
 
     ],
 

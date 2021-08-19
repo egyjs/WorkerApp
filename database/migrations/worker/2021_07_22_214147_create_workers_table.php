@@ -50,6 +50,9 @@ class CreateWorkersTable extends Migration
 
             $table->enum('status', App\Constants\DB::workerStatus)->default('REVIEW');
 
+
+            $table->string('response_time')->nullable();// in_minute
+
             $table->timestamps();
         });
     }

@@ -6,6 +6,6 @@ return [
 
   'enable'  => true,
 
-  'minutes' => 2,
+  'minutes' => 30,
 
 ];

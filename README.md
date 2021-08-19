@@ -29,7 +29,9 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 - [ ] **[laravel-activitylog](https://github.com/spatie/laravel-activitylog)**
 - [ ] **[laravel-backup](https://spatie.be/docs/laravel-backup)**
 - [x] **[laravel-translatable](https://github.com/spatie/laravel-translatable)**
-
+- [ ] **[twilio](https://www.twilio.com/voice/pricing/us)**
+- [ ] **[paypal](https://developer.paypal.com/home)**
+- [ ] **[stripe](https://dashboard.stripe.com/login)**
 ## install
 
 
@@ -38,3 +40,10 @@ cmopser update
 php artisan migrate && php artisan migrate --path=database/migrations/* 
 php artisan passport:install
 ```
+
+# todo
+- [x] `add` worker schedule
+- [x] `edit` worker schedule
+- [ ] `create` issue 
+- [ ] `store` issue and **notify the worker** 
+- [ ] 

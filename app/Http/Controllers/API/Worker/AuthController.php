@@ -4,13 +4,10 @@ namespace App\Http\Controllers\API\Worker;
 
 use App\Http\Controllers\Controller;
 
-use App\Http\Requests\API\Worker\Auth\AssignJobsRequest;
 use App\Http\Requests\API\Worker\Auth\LoginRequest;
 use App\Http\Requests\API\Worker\Auth\LogoutRequest;
 use App\Http\Requests\API\Worker\Auth\RegisterRequest;
-use App\Http\Resources\Worker\WorkerResource;
 use App\Interfaces\Worker\WorkerInterface;
-use Illuminate\Http\Request;
 
 class AuthController extends Controller
 {
@@ -39,13 +36,4 @@ class AuthController extends Controller
         return $this->interface->logout($request);
     }
 
-    public function worker(Request $request): WorkerResource
-    {
-        return new WorkerResource($request->user());
-    }
-
-    public function assignJobs(AssignJobsRequest $request)
-    {
-        return $this->interface->assignJobs($request);
-    }
 }

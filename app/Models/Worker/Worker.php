@@ -2,16 +2,16 @@
 
 namespace App\Models\Worker;
 
-use App\Models\Common\City;
-use App\Models\Common\Country;
-use App\Models\Common\Job;
-use App\Models\Common\State;
-use Geeky\Database\CacheQueryBuilder;
+use App\Http\Resources\Worker\WorkerResource;
+use App\Traits\ModelRelations\{
+    Common\HasCanceledOffer,
+    Common\HasPlace,
+    Common\HasRejectedIssue,
+    Worker\WorkerRelations
+};
+use Egyjs\CacheQuery\CacheQueryBuilder;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -19,11 +19,16 @@ use Laravel\Passport\HasApiTokens;
 /**
  * @method static find(int $id)
  * @method static create(array $validatedData)
- * @method static where(string|array $string, $email = '')
+ * @method static Worker where(string|array $string, $email = '')
+ * @method static Worker active()
+ * @method static Worker whereJobs(int $job_id, $date)
  */
 class Worker extends Authenticatable
 {
-    use HasFactory, Notifiable,HasApiTokens,CacheQueryBuilder;
+    use HasFactory, Notifiable, HasApiTokens, CacheQueryBuilder;
+    use HasRejectedIssue, HasCanceledOffer, WorkerRelations, HasPlace;
+
+//    protected $cacheForever =true;
 
     /**
      * The attributes that are mass assignable.
@@ -44,7 +49,8 @@ class Worker extends Authenticatable
         'driver_license',
         'driver_license_photo',
         'ssn',
-        'ssn_photo'
+        'ssn_photo',
+        'status',
     ];
 
     /**
@@ -68,33 +74,58 @@ class Worker extends Authenticatable
     ];
 
 
+    // get attribute
 
-    public function country(): BelongsTo
+
+    // function
+    public function toArray(): WorkerResource
     {
-        return $this->belongsTo(Country::class);
+        return new WorkerResource($this);
     }
 
-    public function state(): BelongsTo
+    public function isActive(): bool
     {
-        return $this->belongsTo(State::class);
+        return $this->status == 'APPROVED';
     }
 
-    public function city(): BelongsTo
+    // scopes
+
+    /**
+     * Scope a query to only include active workers.
+     *
+     * @param Builder $query
+     * @return Builder
+     */
+    public function scopeActive(Builder $query): Builder
     {
-        return $this->belongsTo(City::class);
+        return $query
+            ->where('status', 'APPROVED')// phone_verified_at || email_verified_at
+            ;
     }
 
-    public function jobs(): BelongsToMany
+    /**
+     * 1. get related job by $job_id
+     * 2. where this job is active and reviewed
+     *
+     *
+     * @param Builder $query
+     * @param $job_id
+     * @param $date
+     * @return Builder
+     */
+    public function scopeWhereJobs(Builder $query, $job_id, $date): Builder
     {
-        //return $this->belongsToMany(RelatedModel, pivot_table_name, foreign_key_of_current_model_in_pivot_table, foreign_key_of_other_model_in_pivot_table);
-        return $this->belongsToMany(
-            Job::class,
-            'worker_jobs',
-            'worker_id',
-            'job_id')
-            ->withPivot(['certificate','active']);
-//            ->wherePivot('active','=',1)
+        return $query->withHas('jobs', function ($q) use ($job_id) {
+            return $q->where('job_id', $job_id)->where('active', 1);
+        });
+    }
 
+
+    public function scopeWithHas($query, $relation, $constraint)
+    {
+        return $query
+            ->whereHas($relation, $constraint)
+            ->with([$relation => $constraint]);
     }
 
 }

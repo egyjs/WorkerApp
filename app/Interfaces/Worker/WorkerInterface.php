@@ -6,10 +6,13 @@ namespace App\Interfaces\Worker;
 
 
 
-use App\Http\Requests\API\Worker\Auth\AssignJobsRequest;
-use App\Http\Requests\API\Worker\Auth\LoginRequest;
-use App\Http\Requests\API\Worker\Auth\LogoutRequest;
-use App\Http\Requests\API\Worker\Auth\RegisterRequest;
+use App\Http\Requests\API\Worker\{
+    AssignJobsRequest,
+    AssignScheduleRequest,
+    Auth\LoginRequest,
+    Auth\LogoutRequest,
+    Auth\RegisterRequest
+};
 
 interface WorkerInterface
 {
@@ -68,4 +71,6 @@ interface WorkerInterface
      * @return mixed
      */
     public function assignJobs(AssignJobsRequest $request);
+
+    public function assignSchedule(AssignScheduleRequest $request);
 }

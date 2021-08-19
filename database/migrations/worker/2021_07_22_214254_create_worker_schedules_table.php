@@ -21,6 +21,7 @@ class CreateWorkerSchedulesTable extends Migration
             $table->time('to');
 
             $table->string('day'); // #test1
+            $table->boolean('active')->default(1);
 
             $table->unique(['worker_id','day']);
             $table->timestamps();

@@ -2,7 +2,9 @@
 
 namespace App\Models\Worker;
 
-use Geeky\Database\CacheQueryBuilder;
+use App\Traits\ModelRelations\Common\HasJob;
+use App\Traits\ModelRelations\Worker\HasWorker;
+use Egyjs\CacheQuery\CacheQueryBuilder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -12,6 +14,7 @@ use Illuminate\Database\Eloquent\Model;
 class WorkerJob extends Model
 {
     use HasFactory,CacheQueryBuilder;
+    use HasWorker,HasJob;
 
     protected $guarded = [];
 }

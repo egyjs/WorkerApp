@@ -1,0 +1,28 @@
+type Client {
+"Fields Count:11"
+    id: ID!
+    user_id: ID!
+    name: String!
+    secret: String!
+    provider: String!
+    redirect: String!
+    personal_access_client: Boolean!
+    password_client: Boolean!
+    revoked: Boolean!
+    created_at: DateTime!
+    updated_at: DateTime!
+}
+
+type Token {
+"Fields Count:9"
+    id: String!
+    user_id: ID!
+    client_id: ID!
+    name: String!
+    scopes: String!
+    revoked: Boolean!
+    created_at: DateTime!
+    updated_at: DateTime!
+    expires_at: DateTime!
+}
+

@@ -1,0 +1,142 @@
+type IssueFile {
+"Fields Count:9"
+    id: ID!
+    user_id: ID!
+    user_issue_id: ID!
+    type: String!
+    file: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User @belongsTo
+    issue: UserIssue @belongsTo
+}
+
+type User {
+"Fields Count:33"
+    id: ID!
+    firstname: String!
+    lastname: String!
+    phone: String!
+    email: String!
+    phone_verified_at: DateTime!
+    email_verified_at: DateTime!
+    password: String!
+    balance: String!
+    rate: String!
+    country_id: ID!
+    state_id: ID!
+    city_id: ID!
+    last_ip: String!
+    status: String!
+    remember_token: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    avatar: String!
+    clients: [Client!] @hasMany
+    tokens: [Token!] @hasMany
+    country: Country @belongsTo
+    state: State @belongsTo
+    city: City @belongsTo
+    rejected_issues: [RejectedIssue!] @hasMany
+    all_canceled_offers: [CanceledOffer!] @hasMany
+    addresses: [UserAddress!] @hasMany
+    issues: [UserIssue!] @hasMany
+    wallets: [UserWallet!] @hasMany
+    rates: [UserRate!] @hasMany
+    devices: [UserDevice!] @hasMany
+    issues_files: [IssueFile!]
+    canceled_offers: [CanceledOffer!] @hasMany
+}
+
+type UserAddress {
+"Fields Count:25"
+    id: ID!
+    user_id: ID!
+    name: String!
+    street_name: String!
+    type: String!
+    building_name: String!
+    floor_no: String!
+    building_no: String!
+    office_name: String!
+    details: String!
+    postal_code: String!
+    phone_code: Int!
+    phone: Int!
+    primary: Boolean!
+    country_id: ID!
+    state_id: ID!
+    city_id: ID!
+    lat: String!
+    lng: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    country: Country @belongsTo
+    state: State @belongsTo
+    city: City @belongsTo
+    user: User @belongsTo
+}
+
+type UserDevice {
+"Fields Count:11"
+    id: ID!
+    unique_id: String!
+    user_id: ID!
+    platform: String!
+    app_version: String!
+    loggedin_at: DateTime!
+    loggedout_at: DateTime!
+    ip: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User @belongsTo
+}
+
+type UserIssue {
+"Fields Count:17"
+    id: ID!
+    user_id: ID!
+    worker_id: ID!
+    job_id: ID!
+    user_address_id: ID!
+    name: String!
+    description: String!
+    date: Date!
+    time: Time!
+    status: String!
+    more_info: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User @belongsTo
+    worker: Worker @belongsTo
+    rejected_issues: [RejectedIssue!] @hasMany
+    job: Job @belongsTo
+}
+
+type UserRate {
+"Fields Count:9"
+    id: ID!
+    worker_offer_id: ID!
+    worker_id: ID!
+    user_id: ID!
+    rate: Int!
+    comment: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User @belongsTo
+}
+
+type UserWallet {
+"Fields Count:10"
+    id: ID!
+    user_id: ID!
+    transaction_desc: String!
+    type: String!
+    amount: String!
+    open_balance: String!
+    close_balance: String!
+    created_at: DateTime!
+    updated_at: DateTime!
+    user: User @belongsTo
+}
+

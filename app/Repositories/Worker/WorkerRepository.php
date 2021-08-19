@@ -3,26 +3,21 @@
 namespace App\Repositories\Worker;
 
 
+use App\Helpers\AuthWorkerHelper;
 use App\Helpers\EgyJsTools\Facades\ArrayTool;
 use App\Helpers\StorageHelper;
-use App\Http\Requests\API\Worker\Auth\AssignJobsRequest;
-use App\Http\Requests\API\Worker\Auth\LoginRequest;
-use App\Http\Requests\API\Worker\Auth\RegisterRequest;
+use App\Http\Requests\API\Worker\{AssignJobsRequest, AssignScheduleRequest, Auth\LoginRequest, Auth\RegisterRequest};
 use App\Http\Resources\Common\JobResource;
 use App\Http\Resources\Worker\WorkerResource;
 use App\Interfaces\Worker\WorkerInterface;
 
 use App\Models\Common\Job;
-use App\Models\Worker\Worker;
-use App\Models\Worker\WorkerDevice;
-use App\Models\Worker\WorkerJob;
+use Illuminate\Support\Facades\Cache;
+use App\Models\Worker\{Worker, WorkerDevice, WorkerJob, WorkerSchedule};
 use App\Traits\ResponseAPI;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Resources\Json\JsonResource;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Throwable;
 
 class WorkerRepository implements WorkerInterface
@@ -196,6 +191,8 @@ class WorkerRepository implements WorkerInterface
                 $worker_jobs->setKey($i)->setArray([
                     'worker_id'=>$user->id,
                     'job_id'=>$job['id'],
+                    'price_range_from'=>$job['price_range_from'],
+                    'price_range_to'=>$job['price_range_to'],
                     'certificate' => isset($job['certificate'])? StorageHelper::saveAs(WorkerJob::class,$job['certificate'],'certificate',$user->id.'-'.$job['id']):null,
                     'created_at' => Carbon::now(),
                 ]);
@@ -211,6 +208,39 @@ class WorkerRepository implements WorkerInterface
 
             // todo: notify admins to review the new worker
             return $this->success("jobs assigned, waiting for review", $result);
+        });
+    }
+
+    public function assignSchedule(AssignScheduleRequest $request)
+    {
+        return DB::transaction(function () use ($request) {
+            $validatedData = $request->validated();
+            $data = ArrayTool::start();
+
+
+            foreach ($request->days as $i=>$day){
+                $data->setKey($i)
+                    ->setArray([
+                        'worker_id' =>$request->user()->id,
+                        'day' =>$day['day'],
+                        'from'=>$day['time_from'],
+                        'to'=>$day['time_to'],
+                        'active'=>$day['active']
+                    ]);
+            }
+
+            $data = $data->generate();
+
+
+
+            WorkerSchedule::upsert($data,['worker_id','day']);
+            Cache::store('cache-builder')->flush();
+            $worker_schedules = $request->user()->schedules()->select('from','to','day','active')->get();
+
+            return $this->success('Schedules assigned successfully',[
+                'schedules'=>$worker_schedules,
+                'available_schedules_day'=>AuthWorkerHelper::AvailableSchedulesDay($worker_schedules)
+            ]);
         });
     }
 }

@@ -10,12 +10,13 @@ use Illuminate\Support\Facades\Facade;
  * @package App\Helpers\EgyJsTools
  *
  * @todo: create a package for this pretty tool
+ * @method  Tool setKey($key)
  * @method  Tool required($key)
- * @method  Tool regex($key,$regex)
- * @method  Tool requiredIf($key,$condition)
- * @method  Tool NotEqualTo($key,$value)
- * @method  Tool equalTo($key,$value)
- * @method  Tool exists($key,$table,$column = null)
+ * @method  Tool regex($regex,$key=null)
+ * @method  Tool requiredIf($condition,$key=null)
+ * @method  Tool NotEqualTo($value,$key=null)
+ * @method  Tool equalTo($value,$key=null)
+ * @method  Tool exists($table,$column = null,$key= null)
  * @method static string generate(bool $collect = false,bool $asString = false)
  */
 

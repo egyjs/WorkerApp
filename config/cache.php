@@ -34,7 +34,9 @@ return [
     'stores' => [
 
         'cache-builder' => [
-            'driver' => 'file',
+            'driver' => 'redis', // old: 'driver' => 'file',
+            'connection' => 'cache', // cp
+            'lock_connection' => 'default', // cp
             'path'   => storage_path('framework/cache/CacheQueryBuilder')
         ],
 
