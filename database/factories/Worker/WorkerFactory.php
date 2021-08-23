@@ -8,6 +8,7 @@ use App\Models\Common\City;
 use App\Models\Worker\Worker;
 use App\Models\Worker\WorkerDevice;
 use App\Models\Worker\WorkerJob;
+use App\Models\Worker\WorkerSchedule;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -30,25 +31,39 @@ class WorkerFactory extends Factory
         return $this->afterMaking(function (Worker $user) {
             //
         })->afterCreating(function (Worker $user) {
-            WorkerDevice::create([
-                "unique_id" => uniqid(),
-                "platform" => "web",
-                "app_version" => "1.0.0",
-                'worker_id'=>$user->id,
-                'ip'=>$this->faker->ipv4(),
-                'loggedin_at' => Carbon::now(),
-                'loggedout_at' => null,
-            ]);
+//            WorkerDevice::create([
+//                "unique_id" => uniqid(),
+//                "platform" => "web",
+//                "app_version" => "1.0.0",
+//                'worker_id'=>$user->id,
+//                'ip'=>$this->faker->ipv4(),
+//                'loggedin_at' => Carbon::now(),
+//                'loggedout_at' => null,
+//            ]);
 
-            WorkerJob::create([
-                'worker_id'=>$user->id,
-                'job_id'=>1,
-                'price_range_from'=>rand(0,30),
-                'price_range_to'=>rand(31,60),
-                'certificate' => null,
-                'active' => 1,
-            ]);
+            $days = [];
+            foreach (Carbon::getDays() as $day){
+                $days[]= [
+                    'worker_id' =>$user->id,
+                    'day' =>$day,
+                    'from'=>rand(00,12).":00",
+                    'to'=>rand(12,24).":00",
+                    'active'=>1
+                ];
+            }
+            WorkerSchedule::insert($days);
 
+            $workerJobCount = rand(1, 2);
+            for ($x = 0; $x < $workerJobCount; $x++) {
+                WorkerJob::create([
+                    'worker_id'=>$user->id,
+                    'job_id'=>1,
+                    'price_range_from'=>rand(0,30),
+                    'price_range_to'=>rand(31,60),
+                    'certificate' => null,
+                    'active' => 1,
+                ]);
+            }
         });
     }
 

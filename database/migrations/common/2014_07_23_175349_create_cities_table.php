@@ -20,7 +20,7 @@ class CreateCitiesTable extends Migration
             $table->json('description')->nullable(); // trans
             $table->string('iso',2)->nullable(); //
 
-            $table->bigInteger('state_id');
+            $table->foreignId('state_id')->constrained();
 
 
             // geolocation

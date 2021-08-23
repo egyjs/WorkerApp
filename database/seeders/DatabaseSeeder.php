@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Common\City;
 use App\Models\Common\Job;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -15,7 +16,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        if (empty(DB::table('countries')->count()) && empty(DB::table('states')->count())) {
+        if (!(DB::table('countries')->count()) && !(DB::table('states')->count())) {
             $this->call([
                 CountrySeeder::class,
                 StateSeeder::class,
@@ -25,6 +26,12 @@ class DatabaseSeeder extends Seeder
         Job::factory()
             ->count(50)
             ->create();
+        if (DB::table('cities')->count() < 5){
+            City::factory()
+                ->count(50)
+                ->create();
+        }
+
         // \App\Models\User::factory(10)->create();
     }
 }

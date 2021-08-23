@@ -10,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static insert(array $worker_jobs)
+ * @method static create(array $array)
  */
 class WorkerJob extends Model
 {

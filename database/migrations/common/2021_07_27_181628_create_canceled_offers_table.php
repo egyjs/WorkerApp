@@ -21,7 +21,7 @@ class CreateCanceledOffersTable extends Migration
             $table->foreignId('worker_offer_id')->constrained('worker_offers')->onDelete('cascade');
 
             $table->enum('canceled_by',\App\Constants\DB::canceledOffersBy);
-            $table->text('reason');
+            $table->text('reason')->nullable();
 
             $table->timestamps();
         });

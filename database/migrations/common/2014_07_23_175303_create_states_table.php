@@ -20,7 +20,7 @@ class CreateStatesTable extends Migration
             $table->json('description')->nullable(); // trans
             $table->string('iso',2)->nullable(); // NY
 
-            $table->bigInteger('country_id');
+            $table->foreignId('country_id')->constrained();
 
             // geolocation
             $table->string('lat');

@@ -42,9 +42,9 @@ class CreateWorkersTable extends Migration
 
 
             // location relation
-            $table->bigInteger('country_id');
-            $table->bigInteger('state_id');
-            $table->bigInteger('city_id');
+            $table->foreignId('country_id')->constrained();
+            $table->foreignId('state_id')->constrained();
+            $table->foreignId('city_id')->constrained();
 
             $table->ipAddress('last_ip');
 
@@ -52,6 +52,7 @@ class CreateWorkersTable extends Migration
 
 
             $table->string('response_time')->nullable();// in_minute
+            // todo: cron-job calculate every 2 weeks
 
             $table->timestamps();
         });

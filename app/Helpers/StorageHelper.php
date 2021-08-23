@@ -42,6 +42,7 @@ class StorageHelper
     {
         try {
             $photoPath =  StorageHelper::filePath($model,$uploadedFile,$inputName,$prefix);
+//            dd($uploadedFile);
             Storage::disk('public')->put($photoPath, $uploadedFile->getContent());
             return $photoPath;
         }catch (\Exception $exception){

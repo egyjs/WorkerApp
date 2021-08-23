@@ -28,10 +28,13 @@ class StoreIssueRequest extends FormRequest
         return [
             'description' => ['required', 'string','min:50'],
             'date' => ['required', 'date'],
-            'time' => ['required'],
+            'time_from' => ['required'],
+            'time_to' => ['required'],
             'job_id' => 'required|integer|exists:jobs,id',
             'worker_id' => 'required|integer|exists:workers,id',
             'user_address_id' => 'required|integer|exists:user_addresses,id,user_id,'.$this->user()->id,
+
+            'issue_files' => 'array',
 
             'reject_workers' => $max_reject_workers_rule.'nullable|regex:/^\[((\d{1,9})(,\d{1,9}?)*)?\]$/m'
 

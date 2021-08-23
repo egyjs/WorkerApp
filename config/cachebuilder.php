@@ -4,7 +4,7 @@
 
 return [
 
-  'enable'  => true,
+  'enable'  => false,
 
   'minutes' => 30,
 

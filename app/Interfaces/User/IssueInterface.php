@@ -6,6 +6,7 @@ namespace App\Interfaces\User;
 
 
 use App\Http\Requests\API\User\CreateIssueRequest;
+use App\Http\Requests\API\Worker\RejectIssueRequest;
 use Illuminate\Support\Collection;
 
 interface IssueInterface
@@ -18,4 +19,11 @@ interface IssueInterface
      * @return mixed slots of all available times in this day
      */
     public function create(CreateIssueRequest $request);
+
+    /**
+     * @param RejectIssueRequest $request
+     * @return mixed
+     */
+    public function reject(RejectIssueRequest $request);
+
 }

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\API\Worker\AuthController;
+use App\Http\Controllers\API\Worker\IssueController;
 use App\Http\Controllers\API\Worker\WorkerController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,6 +32,8 @@ Route::group(['middleware' => ['auth:workers','scopes:workers'] ],function(){
     // assign_jobs
     Route::post('assign_jobs',[WorkerController::class, 'assignJobs']);
     Route::post('assign_schedule',[WorkerController::class, 'assignSchedule']);
+
+    Route::post('issue_reject',[IssueController::class, 'issueReject']);
 
 
 });

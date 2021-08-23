@@ -27,7 +27,6 @@ class CreateUserAddressesTable extends Migration
             $table->text('building_name'); //
             $table->string('floor_no')->nullable(); // no need in VILLA;
             $table->string('building_no')->nullable(); // no need in VILLA;
-//            $table->string('office_name')->nullable();// only need id type = OFFICE;
 
             $table->text('details')->nullable();// ex. Special Marks
 
@@ -41,9 +40,9 @@ class CreateUserAddressesTable extends Migration
 
 
             // location relation // auto based on geolocation
-            $table->bigInteger('country_id'); // auto
-            $table->bigInteger('state_id')->nullable(); // auto
-            $table->bigInteger('city_id'); // auto
+            $table->foreignId('country_id')->constrained(); // auto
+            $table->foreignId('state_id')->nullable()->constrained(); // auto
+            $table->foreignId('city_id')->constrained(); // auto
 
             // geolocation
             $table->string('lat');

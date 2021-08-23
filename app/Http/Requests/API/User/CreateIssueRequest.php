@@ -26,9 +26,15 @@ class CreateIssueRequest extends FormRequest
     {
         $max_reject_workers_rule = is_array(json_decode($this->reject_workers))?( count(json_decode($this->reject_workers)) > 3 ? 'max:3|' : '') :'';
         return [
-            'date' => ['required', 'date'],
             'job_id' => 'required|integer|exists:jobs,id',
             'user_address_id' => 'required|integer|exists:user_addresses,id,user_id,'.$this->user()->id,
+
+
+            'date' => ['required', 'date'],
+            'time_from' => ['required'],
+            'time_to' => ['required'],
+
+
             'filter.*' => ['required',],
 
             'filter.lPrice' => ['required_without:filter.hPrice', 'integer', 'distinct'],

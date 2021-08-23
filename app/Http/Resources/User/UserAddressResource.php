@@ -23,7 +23,6 @@ class UserAddressResource extends JsonResource
             'street_name'=>$this->street_name,
             'type'=>(int) $this->type,
             'building_name'=>$this->building_name,
-            'office_name'=>$this->office_name,
             'building_no'=>$this->building_no,
             'floor_no'=>$this->floor_no,
             'details'=>$this->details,

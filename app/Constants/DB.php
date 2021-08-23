@@ -44,21 +44,30 @@ class DB
     ];
 
     public const building_types = [
-        'VILLA',
+        'HOME',
         'APARTMENT',
-        'OFFICE'
     ];
 
 
     public const issueFilesTypes = [
         'IMAGE',
+        'VOICE',
         'VIDEO',
     ];
 
     public const canceledOffersBy = [
         'USER',
         'WORKER',
-//        'customers_service'
+        'customers_service'
+    ];
+
+    public const paymentTypes = [
+        'PAYPAL',
+
+        'WALLET',
+
+        'STRIPE|WALLETS',
+        'STRIPE|CARDS',
     ];
 
 

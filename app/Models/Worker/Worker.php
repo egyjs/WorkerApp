@@ -22,6 +22,8 @@ use Laravel\Passport\HasApiTokens;
  * @method static Worker where(string|array $string, $email = '')
  * @method static Worker active()
  * @method static Worker whereJobs(int $job_id, $date)
+ * @method whereHas(string $table, \Closure $param)
+ * @method join(string $string, \Closure $param)
  */
 class Worker extends Authenticatable
 {
@@ -76,6 +78,15 @@ class Worker extends Authenticatable
 
     // get attribute
 
+    /**
+     * @example +11234567890
+     *
+     * @return string +country_code.phone
+     */
+    public function getPhoneNumberAttribute(): string
+    {
+        return "+".$this->country->un_code.$this->attributes['phone'];
+    }
 
     // function
     public function toArray(): WorkerResource

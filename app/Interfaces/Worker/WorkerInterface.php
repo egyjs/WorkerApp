@@ -6,6 +6,7 @@ namespace App\Interfaces\Worker;
 
 
 
+use App\Http\Requests\API\User\CreateIssueRequest;
 use App\Http\Requests\API\Worker\{
     AssignJobsRequest,
     AssignScheduleRequest,
@@ -72,5 +73,16 @@ interface WorkerInterface
      */
     public function assignJobs(AssignJobsRequest $request);
 
+    /**
+     * @param AssignScheduleRequest $request
+     * @return mixed
+     */
     public function assignSchedule(AssignScheduleRequest $request);
+
+    /**
+     * @param CreateIssueRequest $request
+     * @return mixed
+     */
+    public function findWorkerToCreateIssue(CreateIssueRequest $request);
+
 }

@@ -19,7 +19,7 @@ class CreateRejectedIssuesTable extends Migration
             $table->foreignId('worker_id')->constrained('workers')->onDelete('cascade');
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('user_issue_id')->constrained('user_issues')->onDelete('cascade');
-
+            $table->text('reason')->nullable();
 
             $table->timestamps();
         });

@@ -30,9 +30,9 @@ class CreateUsersTable extends Migration
             $table->string('rate')->nullable()->default(null); // null mean there is no any rates yet
 
             // location relation
-            $table->bigInteger('country_id');
-            $table->bigInteger('state_id');
-            $table->bigInteger('city_id');
+            $table->foreignId('country_id')->constrained();
+            $table->foreignId('state_id')->constrained();
+            $table->foreignId('city_id')->constrained();
 
 
             // UserAddress

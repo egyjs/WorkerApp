@@ -46,4 +46,4 @@ php artisan passport:install
 - [x] `edit` worker schedule
 - [ ] `create` issue 
 - [ ] `store` issue and **notify the worker** 
-- [ ] 
+- [ ] get another query cache builder

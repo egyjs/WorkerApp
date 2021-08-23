@@ -6,6 +6,26 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
+/**
+ * @param $mime
+ * @param string|array $accept
+ * @return mixed|string|void
+ */
+function fType($mime, $accept = '*') {
+    if (in_array($mime,['application/octet-stream'])){
+        $type = 'video';
+    }else{
+        $type = explode('/',$mime)[0];
+    }
+
+//    dd($mime);
+    if (is_array($accept) && !in_array($type, $accept)) return false;
+
+    return strtoupper($type);
+
+
+}
+
 if ( ! function_exists( 'get_currency_countries' ) ) {
     /**
      * get_currency_countries.
@@ -192,25 +212,7 @@ if (! function_exists('storageAsset')) {
     }
 }
 
-function client_distance_raw($client, $basedOn = 'city', $latColumnName = 'lat', $lngColumnName = 'lng', $AS='city_distance'): Expression
-{
 
-    $tableBased = Str::pluralStudly($basedOn);
-    $modelBased = $client->{Str::singular($basedOn)};
-//    dd($modelBased);
-    $lat = $modelBased->$latColumnName;
-    $lng = $modelBased->$lngColumnName;
-
-    return DB::raw(' ( 6371 * acos( cos( radians(' . $lat . ') ) *
-        cos( radians( '.$tableBased.'.lat  ) ) * cos( radians(  '.$tableBased.'.lng ) - radians(' . $lng . ') ) +
-        sin( radians(' . $lat . ') ) *
-        sin( radians(  '.$tableBased.'.lat ) ) ) )  AS '. $AS);
-}
-
-function average_worker_price_raw($AS = 'average_worker_price'): Expression
-{
-    return DB::raw("((worker_jobs.price_range_from + worker_jobs.price_range_to) / 2)  as $AS");
-}
 
 /**
  * Identify all relationships for a given model

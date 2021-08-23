@@ -17,10 +17,8 @@ class CreateUserIssuesTable extends Migration
             $table->id();
 
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
-            $table->foreignId('worker_id')
-                ->nullable()
-                ->constrained('workers')
-                ->onDelete('cascade');
+
+            $table->foreignId('worker_id')->nullable()->constrained('workers')->onDelete('cascade'); // try not to use ,but it's okay
 
             $table->foreignId('job_id')->constrained('jobs')->onDelete('cascade');
             $table->foreignId('user_address_id')->constrained('user_addresses')->onDelete('cascade');
@@ -32,6 +30,8 @@ class CreateUserIssuesTable extends Migration
 
             $table->time('time_from')->nullable(); // will assign after select worker
             $table->time('time_to')->nullable(); // will assign after select worker
+
+            $table->boolean('is_urgent')->default(false);
 
             $table->enum('status', App\Constants\DB::userIssuesStatus)->default('PENDING');
             /**

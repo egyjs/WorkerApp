@@ -16,11 +16,16 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+// graphql
+Route::any('graphql',[\App\Http\Controllers\API\User\GraphqlController::class,'graphql']);
+
+
 // auth
 Route::group(['prefix'=>'auth'],function (){
     Route::post('register', [AuthController::class, 'register']);
     Route::post('login', [AuthController::class, 'login']);
 });
+
 
 Route::group(['middleware' => ['auth:users','scopes:users'] ],function(){
     // auth

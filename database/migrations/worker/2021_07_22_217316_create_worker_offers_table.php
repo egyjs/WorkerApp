@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\DB;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -40,9 +41,9 @@ class CreateWorkerOffersTable extends Migration
             $table->string('end_pic')->nullable();
 
 
-            $table->enum('status', \App\Constants\DB::workerOfferStatus)->default('OFFERED'); // OFFERED -> ACCEPTED -> [WAITING_WORKER]
-            $table->enum('payment_status',\App\Constants\DB::workerOfferPaymentStatus)->default('UNPAID');
-            $table->string('payment_type'); // todo:enum
+            $table->enum('status', DB::workerOfferStatus)->default('OFFERED'); // OFFERED -> ACCEPTED -> [WAITING_WORKER]
+            $table->enum('payment_status', DB::workerOfferPaymentStatus)->default('UNPAID');
+            $table->enum('payment_type',DB::paymentTypes);
 
             $table->timestamps();
         });
