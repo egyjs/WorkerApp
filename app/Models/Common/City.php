@@ -4,18 +4,18 @@ namespace App\Models\Common;
 
 use App\Models\User\User;
 use App\Models\Worker\Worker;
-use Egyjs\CacheQuery\CacheQueryBuilder;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Spatie\Translatable\HasTranslations;
+use App\Traits\Packages\Spatie\Translatable\HasTranslations;
 
 /**
  * @method static create(array $array)
  */
 class City extends Model
 {
-    use HasFactory,HasTranslations,CacheQueryBuilder;
+    use HasFactory,HasTranslations;
 
     public $translatable = ['name','description'];
 

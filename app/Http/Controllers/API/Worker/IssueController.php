@@ -4,7 +4,7 @@ namespace App\Http\Controllers\API\Worker;
 
 use App\Http\Controllers\Controller;
 
-use App\Interfaces\User\IssueInterface;
+use App\Interfaces\Worker\IssueInterface;
 use App\Interfaces\User\UserInterface;
 use App\Http\Requests\API\Worker\{AssignJobsRequest, AssignScheduleRequest, RejectIssueRequest};
 use App\Http\Resources\Worker\WorkerResource;
@@ -16,9 +16,9 @@ class IssueController extends Controller
     protected $userInterface;
     protected $issueInterface;
 
-    public function __construct(UserInterface $userInterface,IssueInterface $issueInterface)
+    public function __construct(IssueInterface $issueInterface)
     {
-        $this->userInterface = $userInterface;
+//        $this->userInterface = $userInterface;
         $this->issueInterface = $issueInterface;
     }
 

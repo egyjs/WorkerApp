@@ -29,7 +29,7 @@ trait ResponseAPI
      * @param boolean $isSuccess
      * @return JsonResponse
      */
-    public function coreResponse($message, $data = null, int $statusCode, bool $isSuccess = true): JsonResponse
+    public function coreResponse($message, $data = null, int $statusCode = 200, bool $isSuccess = true): JsonResponse
     {
         // Check the params
         if (!$message) return response()->json(['message' => 'Message is required'], 500);
@@ -54,6 +54,11 @@ trait ResponseAPI
      * @return JsonResponse
      */
     public function error($message, int $statusCode = 500): JsonResponse
+    {
+        return $this->coreResponse($message, null, $statusCode, false);
+    }
+
+    public function errorNotAllowed($message = 'Ammmm! are you okay!! you are not allowed to do this request.',$statusCode = 405): JsonResponse
     {
         return $this->coreResponse($message, null, $statusCode, false);
     }

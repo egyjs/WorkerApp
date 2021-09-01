@@ -38,8 +38,8 @@ class NewIssue extends Notification implements ShouldQueue
     public function via($notifiable)
     {
         return [
-            'mail',
-//            TwilioChannel::class
+//            'mail',
+            TwilioChannel::class
         ];
     }
 
@@ -83,9 +83,12 @@ class NewIssue extends Notification implements ShouldQueue
 
     public function toTwilio($notifiable): TwilioMessage
     {
-//        $url = "https://gist.githubusercontent.com/egyjs/05fe79c08ffe7f64cf6eef58935442a8/raw/39e6814ed065f42c5cc800af0d16d9ca0ecfe480/gistfile1.txt";
-        return (new TwilioSmsMessage())
-            ->content("Hi Mr. ".$notifiable->lastname.", you have a new request ID:#".$this->issue->id);
+
+        $content = "Hi Mr. ".$notifiable->lastname.", you have a new request with ID:#".$this->issue->id;
+        $url  = route('twiml.say',['say'=>base64_encode($content)]);
+        return (new TwilioCallMessage())
+            ->url($url);
+
     }
 
 

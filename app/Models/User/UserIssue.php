@@ -18,6 +18,10 @@ class UserIssue extends Model
     use HasFactory;
     use HasUser,HasWorker,HasRejectedIssue,HasJob;
 
+    protected $casts = [
+        'filter_data' =>'array',
+        'reject_workers' =>'array',
+    ];
 
     protected $guarded = [];
 

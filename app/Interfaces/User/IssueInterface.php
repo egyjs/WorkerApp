@@ -20,10 +20,4 @@ interface IssueInterface
      */
     public function create(CreateIssueRequest $request);
 
-    /**
-     * @param RejectIssueRequest $request
-     * @return mixed
-     */
-    public function reject(RejectIssueRequest $request);
-
 }

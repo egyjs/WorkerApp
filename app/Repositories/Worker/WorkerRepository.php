@@ -15,6 +15,7 @@ use App\Http\Resources\Worker\WorkerResource;
 use App\Interfaces\Worker\WorkerInterface;
 
 use App\Models\Common\Job;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Cache;
 use App\Models\Worker\{Worker, WorkerDevice, WorkerJob, WorkerSchedule};
 use App\Traits\ResponseAPI;
@@ -247,28 +248,36 @@ class WorkerRepository implements WorkerInterface
         });
     }
 
+
+
     /**
-     * @inheritDoc
+     * Get worker to create issue
+     *
+     *
+     * @access  public
+     * @param array $filterData = [[filter],user_address_id,time_from,time_to,date,country_id,job_id,state_id,reject_workers]
+     * @return Builder $workerBuilder
      */
-    public function findWorkerToCreateIssue(CreateIssueRequest $request)
+    public function findWorkerModelToCreateIssue(array $filterData): Builder
     {
+        $filterData = json_decode(json_encode($filterData));
 
         $minimumTimeToWork = 30 * 60; // minutes to sec
-        $filters = collect($request->filter)->sort();
-        $date = $request->date;
+        $filters = collect($filterData->filter)->sort();
+        $date = $filterData->date;
 
 
-        $client_address = UserAddress::cacheForever()->find($request->user_address_id);
+        $client_address = UserAddress::find($filterData->user_address_id);
 
 
 
         // worker_available_time_raw
-        $uFrom = $request->time_from
-            ? 'TIME_TO_SEC("' . $request->time_from . '")'
+        $uFrom = $filterData->time_from
+            ? 'TIME_TO_SEC("' . $filterData->time_from . '")'
             : null;
         //.
-        $uTo =  $request->time_to
-            ? 'TIME_TO_SEC("' . $request->time_to . '")'
+        $uTo =  $filterData->time_to
+            ? 'TIME_TO_SEC("' . $filterData->time_to . '")'
             : null;
 
         $wFrom = "TIME_TO_SEC(worker_schedules.from)";
@@ -278,15 +287,14 @@ class WorkerRepository implements WorkerInterface
         $dateDay = \Illuminate\Support\Carbon::create($date)->format('l'); // 30-01-2002 = Wednesday
 
 
-        $worker = Worker::dontCache()
-            ->active()
+        $worker = Worker::active()
             ->where('workers.country_id', $client_address->country_id)
-            ->whereJobs($request->job_id, $date)
+            ->whereJobs($filterData->job_id, $date)
 //            ->
-            // select price columns form worker_jobs->where('worker_jobs.worker_id','=','worker.id')->where('worker_jobs.job_id','=',$request->job_id)-> and name it : worker_job_price
-            ->join('worker_jobs', function ($join) use ($request) {
+            // select price columns form worker_jobs->where('worker_jobs.worker_id','=','worker.id')->where('worker_jobs.job_id','=',$filterData->job_id)-> and name it : worker_job_price
+            ->join('worker_jobs', function ($join) use ($filterData) {
                 $join->on('workers.id', '=', 'worker_jobs.worker_id')
-                    ->where('worker_jobs.job_id', '=', $request->job_id);
+                    ->where('worker_jobs.job_id', '=', $filterData->job_id);
             })
             ->where('workers.state_id', $client_address->state_id)
             ->where(function ($query) use ($filters) {
@@ -304,14 +312,14 @@ class WorkerRepository implements WorkerInterface
                     }
                 });
             })
-//            ->join('states', function ($join) use ($request) {
+//            ->join('states', function ($join) use ($filterData) {
 //                $join->on('workers.state_id', '=', 'states.id');
 //            })
             ->join('worker_schedules', function ($join) use ($dateDay) {
                 $join->on('workers.id', '=', 'worker_schedules.worker_id')
                     ->where('worker_schedules.day', $dateDay)->where('worker_schedules.active', true);
             })
-            ->join('cities', function ($join) use ($request) {
+            ->join('cities', function ($join) use ($filterData) {
                 $join->on('workers.city_id', '=', 'cities.id');
             })
             ->select('workers.*',
@@ -374,7 +382,6 @@ class WorkerRepository implements WorkerInterface
         // get the workers
         return $worker
             ->having('worker_available_time','>=',$minimumTimeToWork)
-            ->whereNotIn('workers.id', json_decode($request->reject_workers) ?? [])
-            ->first();
+            ->whereNotIn('workers.id', $filterData->reject_workers ?? []);
     }
 }

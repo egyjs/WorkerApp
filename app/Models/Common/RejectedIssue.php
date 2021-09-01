@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @method static create(array $array)
+ * @method static where(mixed $string, mixed $user_issue_id)
  */
 class RejectedIssue extends Model
 {

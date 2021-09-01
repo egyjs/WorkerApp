@@ -26,12 +26,16 @@ class CreateUserIssuesTable extends Migration
             $table->string('name')->nullable();
             $table->text('description');
 
+            $table->json('reject_workers');
+
             $table->date('date');
 
             $table->time('time_from')->nullable(); // will assign after select worker
             $table->time('time_to')->nullable(); // will assign after select worker
 
             $table->boolean('is_urgent')->default(false);
+
+            $table->json('filter_data');
 
             $table->enum('status', App\Constants\DB::userIssuesStatus)->default('PENDING');
             /**

@@ -24,8 +24,7 @@ class IssueController extends Controller
         return $this->issueInterface->create($request);
     }
 
-    public function store(StoreIssueRequest $request){
+    public function store(CreateIssueRequest $request){
         return $this->issueInterface->store($request);
-
     }
 }

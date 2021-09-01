@@ -37,7 +37,7 @@ We would like to extend our thanks to the following sponsors for funding Laravel
 
 ```shell
 cmopser update
-php artisan migrate && php artisan migrate --path=database/migrations/* 
+php artisan migrate --path=database/migrations/* && php artisan migrate
 php artisan passport:install
 ```
 

@@ -7,6 +7,7 @@ namespace App\Interfaces\Worker;
 
 
 use App\Http\Requests\API\User\CreateIssueRequest;
+use App\Models\Worker\Worker;
 use App\Http\Requests\API\Worker\{
     AssignJobsRequest,
     AssignScheduleRequest,
@@ -14,6 +15,7 @@ use App\Http\Requests\API\Worker\{
     Auth\LogoutRequest,
     Auth\RegisterRequest
 };
+use Illuminate\Database\Eloquent\Builder;
 
 interface WorkerInterface
 {
@@ -80,9 +82,13 @@ interface WorkerInterface
     public function assignSchedule(AssignScheduleRequest $request);
 
     /**
-     * @param CreateIssueRequest $request
-     * @return mixed
+     * Get worker to create issue
+     *
+     *
+     * @access  public
+     * @param array $request
+     * @return Builder $workerBuilder
      */
-    public function findWorkerToCreateIssue(CreateIssueRequest $request);
+    public function findWorkerModelToCreateIssue(array $request): Builder;
 
 }

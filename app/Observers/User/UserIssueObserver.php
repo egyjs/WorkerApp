@@ -4,6 +4,7 @@ namespace App\Observers\User;
 
 use App\Models\User\UserIssue;
 use App\Notifications\Worker\NewIssue;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Notification;
 
 class UserIssueObserver
@@ -22,7 +23,11 @@ class UserIssueObserver
      */
     public function created(UserIssue $userIssue)
     {
-        Notification::send($userIssue->worker, new NewIssue($userIssue));
+        try{
+            Notification::send($userIssue->worker, new NewIssue($userIssue));
+        }catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
     /**
@@ -33,7 +38,15 @@ class UserIssueObserver
      */
     public function updated(UserIssue $userIssue)
     {
-        //
+
+        try{
+            // todo: notify user that we are searching for another worker
+            //  also check if update is about changing the worker if(oldworker->id == currrunWorker when there is a rejectedIssue with oldworker->id)
+            //            return $this->success('please wait, we send your request to Another Garry', new UserIssueResource($issue));
+
+        }catch (\Exception $e) {
+            Log::error($e->getMessage());
+        }
     }
 
     /**

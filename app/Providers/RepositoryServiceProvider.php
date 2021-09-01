@@ -32,6 +32,12 @@ class RepositoryServiceProvider extends ServiceProvider
             'App\Repositories\Worker\WorkerRepository'
         );
 
+        // worker issues
+        $this->app->bind(
+            'App\Interfaces\Worker\IssueInterface',
+            'App\Repositories\Worker\IssueRepository'
+        );
+
     }
 
     /**

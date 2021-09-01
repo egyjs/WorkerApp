@@ -5,6 +5,11 @@ namespace App\Http\Resources\User\Issue;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
+/**
+ * @property mixed $worker_id
+ * @property mixed $description
+ * @property mixed $status
+ */
 class UserIssueResource extends JsonResource
 {
     /**
@@ -16,7 +21,8 @@ class UserIssueResource extends JsonResource
     public function toArray($request): array
     {
         return [
-            "worker_id" => $this->id,
+            "id" => $this->id,
+            "worker_id" => $this->worker_id,
             "user_id" => (int) $this->user_id,
             "user_address_id" => (int) $this->user_address_id,
             "job_id" => (int) $this->job_id,

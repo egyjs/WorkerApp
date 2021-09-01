@@ -22,13 +22,12 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Artisan::command('worker:factory', function () {
-    $w = \App\Models\Worker\Worker::factory()->count(100000)->create();
+    $w = \App\Models\Worker\Worker::factory()->count(1000)->create();
     dd($w);
 });
 
 
 Artisan::command('test', function () {
-
     $w = \App\Models\Common\City::factory()->count(20)->create();
     dd($w);
 

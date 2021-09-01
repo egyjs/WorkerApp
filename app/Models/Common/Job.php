@@ -4,19 +4,19 @@ namespace App\Models\Common;
 
 use App\Models\Worker\Worker;
 use App\Traits\ModelRelations\Worker\HasWorker;
-use Egyjs\CacheQuery\CacheQueryBuilder;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Spatie\Translatable\HasTranslations;
+use App\Traits\Packages\Spatie\Translatable\HasTranslations;
 
 /**
  * @method static whereIn(string $string, \Illuminate\Support\Collection $collection)
  */
 class Job extends Model
 {
-    use HasFactory,HasTranslations,CacheQueryBuilder;
+    use HasFactory,HasTranslations;
 
     public $translatable = ['name','description'];
 

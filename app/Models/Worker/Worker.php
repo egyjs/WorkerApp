@@ -9,7 +9,7 @@ use App\Traits\ModelRelations\{
     Common\HasRejectedIssue,
     Worker\WorkerRelations
 };
-use Egyjs\CacheQuery\CacheQueryBuilder;
+
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -24,10 +24,12 @@ use Laravel\Passport\HasApiTokens;
  * @method static Worker whereJobs(int $job_id, $date)
  * @method whereHas(string $table, \Closure $param)
  * @method join(string $string, \Closure $param)
+ * @method first()
+ * @property string $status
  */
 class Worker extends Authenticatable
 {
-    use HasFactory, Notifiable, HasApiTokens, CacheQueryBuilder;
+    use HasFactory, Notifiable, HasApiTokens;
     use HasRejectedIssue, HasCanceledOffer, WorkerRelations, HasPlace;
 
 //    protected $cacheForever =true;

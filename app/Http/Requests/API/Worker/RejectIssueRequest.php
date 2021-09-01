@@ -6,6 +6,9 @@ use App\Helpers\EgyJsTools\ValidationTool\Facades\ValidationTool;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * @property integer $user_issue_id
+ */
 class RejectIssueRequest extends FormRequest
 {
     /**
@@ -25,8 +28,11 @@ class RejectIssueRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'user_issue_id' => 'required',
-            'reason'=>'required|min:80' // todo: regex to prevent "............."
+            'user_issue_id' => ['required','exists:user_issues,id'],
+            'reason' => 'in:MEDICAL,DISTANCE,OTHER', // todo: option points
+            // medical
+            // distance
+            // other
         ];
     }
 }

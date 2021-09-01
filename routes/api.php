@@ -16,3 +16,13 @@ use Twilio\TwiML\VoiceResponse;
 */
 
 
+Route::get('twiml/say',function(Request $request){
+
+
+    $response = new VoiceResponse();
+    $response->say(base64_decode($request->say));
+
+    return response($response, 200, [
+        'Content-Type' => 'application/xml'
+    ]);
+})->name('twiml.say');
