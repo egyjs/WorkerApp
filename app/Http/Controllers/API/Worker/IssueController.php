@@ -4,12 +4,11 @@ namespace App\Http\Controllers\API\Worker;
 
 use App\Http\Controllers\Controller;
 
+use App\Http\Requests\API\Common\MoreInfoRequest;
 use App\Interfaces\Worker\IssueInterface;
-use App\Interfaces\User\UserInterface;
-use App\Http\Requests\API\Worker\{AssignJobsRequest, AssignScheduleRequest, RejectIssueRequest};
-use App\Http\Resources\Worker\WorkerResource;
-use App\Interfaces\Worker\WorkerInterface;
-use Illuminate\Http\Request;
+use Illuminate\Http\JsonResponse;
+use App\Http\Requests\API\Worker\{RejectIssueRequest};
+
 
 class IssueController extends Controller
 {
@@ -25,6 +24,15 @@ class IssueController extends Controller
     public function issueReject(RejectIssueRequest $request)
     {
         return $this->issueInterface->reject($request);
+    }
+
+    /**
+     * @param MoreInfoRequest $request
+     * @return JsonResponse
+     */
+    public function issueInfo(MoreInfoRequest $request): JsonResponse
+    {
+        return $this->issueInterface->moreInfo($request);
     }
 
 }

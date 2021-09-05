@@ -21,6 +21,7 @@ class UserIssue extends Model
     protected $casts = [
         'filter_data' =>'array',
         'reject_workers' =>'array',
+        'more_info' => 'array'
     ];
 
     protected $guarded = [];

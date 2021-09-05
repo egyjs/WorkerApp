@@ -31,6 +31,7 @@ trait ResponseAPI
      */
     public function coreResponse($message, $data = null, int $statusCode = 200, bool $isSuccess = true): JsonResponse
     {
+        dd($message, $data, $statusCode,  $isSuccess);
         // Check the params
         if (!$message) return response()->json(['message' => 'Message is required'], 500);
 

@@ -26,6 +26,7 @@ use Laravel\Passport\HasApiTokens;
  * @method join(string $string, \Closure $param)
  * @method first()
  * @property string $status
+ * @property int $id
  */
 class Worker extends Authenticatable
 {

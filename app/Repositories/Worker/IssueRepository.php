@@ -4,8 +4,12 @@ namespace App\Repositories\Worker;
 
 use App\Helpers\DBHelpers;
 use App\Helpers\StorageHelper;
-use App\Http\Requests\{API\User\CreateIssueRequest, API\User\StoreIssueRequest, API\Worker\RejectIssueRequest};
+use App\Http\Requests\{API\Common\MoreInfoRequest,
+    API\User\CreateIssueRequest,
+    API\User\StoreIssueRequest,
+    API\Worker\RejectIssueRequest};
 use App\Models\Common\RejectedIssue;
+use Illuminate\Http\JsonResponse;
 use App\Http\Resources\{User\Issue\UserIssueResource, Worker\WorkerResource};
 use App\Interfaces\Worker\IssueInterface;
 use App\Models\User\{IssueFile, UserAddress, UserIssue};
@@ -73,5 +77,36 @@ class IssueRepository implements IssueInterface
             return $this->success('issue rejected successfully', $rejectedIssue);
         });
 
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function moreInfo(MoreInfoRequest $request): JsonResponse
+    {
+        $issue = UserIssue::where('id', $request->user_issue_id)->where('worker_id',$request->user()->id)->first();
+
+        // check if issue not exist with worker id
+        if(!$issue) return $this->errorNotAllowed();
+
+//        dd($issue->more_info);
+
+
+
+        // ask the question
+        $issue->more_info = ['Q'=>$request->question];
+
+        // check if there is question or answer exists
+        if (isset($issue->more_info['Q']) and !isset($issue->more_info['A'])) return $this->errorNotAllowed(__('we sent your question to the client'));
+
+        if (isset($issue->more_info['Q']) and isset($issue->more_info['A']))  return $this->success(__('the client already answered'),$issue->more_info);
+
+
+        // store the
+
+
+
+
+        return $this->success('hi',$request->user);
     }
 }

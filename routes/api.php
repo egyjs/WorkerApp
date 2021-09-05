@@ -25,4 +25,4 @@ Route::get('twiml/say',function(Request $request){
     return response($response, 200, [
         'Content-Type' => 'application/xml'
     ]);
-})->name('twiml.say');
+})->middleware('auth')->name('twiml.say');
