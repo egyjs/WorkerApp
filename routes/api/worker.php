@@ -33,7 +33,7 @@ Route::group(['middleware' => ['auth:workers','scopes:workers'] ],function(){
     Route::post('assign_jobs',[WorkerController::class, 'assignJobs']);
     Route::post('assign_schedule',[WorkerController::class, 'assignSchedule']);
 
-    Route::post('issue/reject',[IssueController::class, 'issueReject']);
+    Route::post('issues/reject',[IssueController::class, 'issuesReject']);
 //    Route::post('issue/accept',[IssueController::class, 'issueAccept'])
-    Route::post('issue/more_info',[IssueController::class, 'issueInfo']);
+    Route::post('issues/more_info',[IssueController::class, 'issuesInfo']);
 });

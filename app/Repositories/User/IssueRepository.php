@@ -4,7 +4,10 @@ namespace App\Repositories\User;
 
 use App\Helpers\DBHelpers;
 use App\Helpers\StorageHelper;
-use App\Http\Requests\{API\User\CreateIssueRequest, API\User\StoreIssueRequest, API\Worker\RejectIssueRequest};
+use App\Http\Requests\{API\Common\MoreInfoRequest,
+    API\User\CreateIssueRequest,
+    API\User\StoreIssueRequest,
+    API\Worker\RejectIssueRequest};
 use App\Models\Common\RejectedIssue;
 use App\Repositories\Worker\WorkerRepository;
 use App\Http\Resources\{User\Issue\UserIssueResource, Worker\WorkerResource};
@@ -86,7 +89,6 @@ class IssueRepository implements IssueInterface
 
     public function create(CreateIssueRequest $request)
     {
-
         $worker = $this->workerRepository
             ->findWorkerModelToCreateIssue($request->all())
             ->first();
@@ -97,4 +99,34 @@ class IssueRepository implements IssueInterface
 
     }
 
+    public function moreInfo(MoreInfoRequest $request)
+    {
+        return DB::transaction(function () use ($request) {
+            $issue = UserIssue::where('id', $request->user_issue_id)->where('user_id', $request->user()->id)->first();
+
+            // check if issue not exist with user id
+            if (!$issue) return $this->errorNotAllowed();
+
+
+            // check if there is question to answer it
+//            if (isset($issue->more_info['Q']) and !isset($issue->more_info['A'])) return $this->success(__('Your question has already been sent to the client'),new UserIssueResource($issue));
+
+            if (isset($issue->more_info['Q']) and isset($issue->more_info['A'])) return $this->success(__('You already answered this question!'), new UserIssueResource($issue));
+
+
+            // ask the question
+            $issue->more_info = $issue->more_info+['A' => $request->answer];
+
+            // check every thing before save
+            if (!isset($issue->more_info['Q']) or !isset($issue->more_info['A'])) return $this->error('something want wrong, data: '.json_encode([$issue,$request->all(),$request->user]),500,true);
+
+            // store the question
+            $issue->save();
+
+
+            /** fire @UserIssueObserver Observer */
+
+            return $this->success( __('Thanks.. we sent your answer to Garry'),new UserIssueResource($issue));
+        });
+    }
 }

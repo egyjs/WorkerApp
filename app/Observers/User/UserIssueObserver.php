@@ -48,6 +48,8 @@ class UserIssueObserver
 
             if ($userIssue->wasChanged('more_info')){
                 // todo: notify user that worker `need more information`
+                // todo: notify worker that user have been answered his question
+                //  also check if its Q or A
             }
 
         }catch (\Exception $e) {

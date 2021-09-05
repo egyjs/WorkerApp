@@ -3,6 +3,7 @@
 namespace App\Traits;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 trait ResponseAPI
@@ -51,15 +52,17 @@ trait ResponseAPI
      *
      * @param mixed $message
      * @param integer $statusCode
+     * @param bool $log
      * @return JsonResponse
      */
-    public function error($message, int $statusCode = 500): JsonResponse
+    public function error($message, int $statusCode = 500,$log = false): JsonResponse
     {
+        if ($log) Log::error($message);
         return $this->coreResponse($message, null, $statusCode, false);
     }
 
-    public function errorNotAllowed($message = 'Ammmm! are you okay!! you are not allowed to do this request.',$statusCode = 405): JsonResponse
+    public function errorNotAllowed($message = 'Ammmm! are you okay!! you are not allowed to do this request.',$statusCode = 405,$log = false): JsonResponse
     {
-        return $this->coreResponse($message, null, $statusCode, false);
+        return $this->error($message, $statusCode, $log);
     }
 }

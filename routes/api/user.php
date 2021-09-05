@@ -34,6 +34,12 @@ Route::group(['middleware' => ['auth:users','scopes:users'] ],function(){
         Route::get('user',[AuthController::class, 'user']);
     });
 
+    // profile
     Route::post('assign_address', [AuthController::class, 'assignAddress']);
-    Route::resource('issues', IssueController::class);
+
+
+    // issues
+    Route::resource('issues', IssueController::class)->only(['store','create']);
+    Route::post('issues/more_info',[IssueController::class, 'issuesInfo']);
+
 });

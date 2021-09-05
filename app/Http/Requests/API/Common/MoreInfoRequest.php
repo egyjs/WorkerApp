@@ -9,6 +9,7 @@ use Illuminate\Foundation\Http\FormRequest;
 /**
  * @property integer $user_issue_id
  * @property string $question
+ * @property string $answer
  * @property User|Worker $user
  */
 class MoreInfoRequest extends FormRequest
@@ -30,15 +31,20 @@ class MoreInfoRequest extends FormRequest
      */
     public function rules(): array
     {
+        $data = [];
         if(class_basename($this->user()) == 'Worker'){
-            return [
-                'user_issue_id' => 'required|exists:user_issues,id',
-                'question' => 'required|min:120',
+            $data = [
+                'question' => 'required|min:80',
             ];
         }else if(class_basename($this->user()) == 'User'){
-            return [
+            $data = [
                 'answer' => 'required|min:120',
             ];
         }
+
+
+        return [
+                'user_issue_id' => 'required|exists:user_issues,id'
+            ] + $data;
     }
 }

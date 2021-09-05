@@ -21,7 +21,7 @@ class IssueController extends Controller
         $this->issueInterface = $issueInterface;
     }
 
-    public function issueReject(RejectIssueRequest $request)
+    public function issuesReject(RejectIssueRequest $request)
     {
         return $this->issueInterface->reject($request);
     }
@@ -30,7 +30,7 @@ class IssueController extends Controller
      * @param MoreInfoRequest $request
      * @return JsonResponse
      */
-    public function issueInfo(MoreInfoRequest $request): JsonResponse
+    public function issuesInfo(MoreInfoRequest $request): JsonResponse
     {
         return $this->issueInterface->moreInfo($request);
     }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API\User;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\API\Common\MoreInfoRequest;
 use App\Http\Requests\API\User\CreateIssueRequest;
 use App\Http\Requests\API\User\StoreIssueRequest;
 use App\Interfaces\User\IssueInterface;
@@ -26,5 +27,10 @@ class IssueController extends Controller
 
     public function store(CreateIssueRequest $request){
         return $this->issueInterface->store($request);
+    }
+
+    public function issuesInfo(MoreInfoRequest $request)
+    {
+        return $this->issueInterface->moreInfo($request);
     }
 }
