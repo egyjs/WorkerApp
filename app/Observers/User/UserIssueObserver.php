@@ -41,8 +41,14 @@ class UserIssueObserver
 
         try{
             // todo: notify user that we are searching for another worker
-            //  also check if update is about changing the worker if(oldworker->id == currrunWorker when there is a rejectedIssue with oldworker->id)
+            //  also check if update is about changing the worker if(oldWorker->id == currentWorker when there is a rejectedIssue with oldWorker->id)
             //            return $this->success('please wait, we send your request to Another Garry', new UserIssueResource($issue));
+
+
+
+            if ($userIssue->wasChanged('more_info')){
+                // todo: notify user that worker `need more information`
+            }
 
         }catch (\Exception $e) {
             Log::error($e->getMessage());

@@ -84,29 +84,30 @@ class IssueRepository implements IssueInterface
      */
     public function moreInfo(MoreInfoRequest $request): JsonResponse
     {
-        $issue = UserIssue::where('id', $request->user_issue_id)->where('worker_id',$request->user()->id)->first();
+        return DB::transaction(function () use ($request) {
+            $issue = UserIssue::where('id', $request->user_issue_id)->where('worker_id', $request->user()->id)->first();
 
-        // check if issue not exist with worker id
-        if(!$issue) return $this->errorNotAllowed();
-
-//        dd($issue->more_info);
-
+            // check if issue not exist with worker id
+            if (!$issue) return $this->errorNotAllowed();
 
 
-        // ask the question
-        $issue->more_info = ['Q'=>$request->question];
+            // check if there is question or answer exists
+            if (isset($issue->more_info['Q']) and !isset($issue->more_info['A'])) return $this->errorNotAllowed(__('we sent your question to the client'));
 
-        // check if there is question or answer exists
-        if (isset($issue->more_info['Q']) and !isset($issue->more_info['A'])) return $this->errorNotAllowed(__('we sent your question to the client'));
-
-        if (isset($issue->more_info['Q']) and isset($issue->more_info['A']))  return $this->success(__('the client already answered'),$issue->more_info);
+            if (isset($issue->more_info['Q']) and isset($issue->more_info['A'])) return $this->success(__('the client already answered'), $issue->more_info);
 
 
-        // store the
+            // ask the question
+            $issue->more_info = ['Q' => $request->question];
 
 
+            // store the question
+            $issue->save();
 
 
-        return $this->success('hi',$request->user);
+            /** fire "" event */
+
+            return $this->success( __('thanks.. we sent your question to the client'),new UserIssueResource($issue));
+        });
     }
 }
